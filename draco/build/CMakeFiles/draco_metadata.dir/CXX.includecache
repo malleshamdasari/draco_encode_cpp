@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../src/draco/core/hash_utils.h
+stdint.h
+-
+cstddef
+-
+functional
+-
+
+../src/draco/metadata/geometry_metadata.h
+draco/metadata/metadata.h
+../src/draco/metadata/draco/metadata/metadata.h
+
+../src/draco/metadata/metadata.h
+cstring
+-
+map
+-
+memory
+-
+string
+-
+vector
+-
+draco/core/hash_utils.h
+../src/draco/metadata/draco/core/hash_utils.h
+
+/home/mallesh/ws/draco_encoding_cpp/draco/src/draco/metadata/geometry_metadata.cc
+draco/metadata/geometry_metadata.h
+/home/mallesh/ws/draco_encoding_cpp/draco/src/draco/metadata/draco/metadata/geometry_metadata.h
+utility
+-
+
+/home/mallesh/ws/draco_encoding_cpp/draco/src/draco/metadata/metadata.cc
+draco/metadata/metadata.h
+/home/mallesh/ws/draco_encoding_cpp/draco/src/draco/metadata/draco/metadata/metadata.h
+utility
+-
+
