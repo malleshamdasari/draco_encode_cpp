@@ -1,4 +1,5 @@
 #include <iostream>
+
 #include "draco/compression/encode.h"
 #include "draco/core/cycle_timer.h"
 #include "draco/io/file_utils.h"
@@ -60,7 +61,7 @@ int main() {
   std::unique_ptr<draco::PointCloud> pc;
   draco::Mesh *mesh = nullptr;
 
-  auto maybe_mesh = draco::ReadMeshFromFile("/home/mallesh/ws/draco_encoding_cpp/example.obj", false);
+  auto maybe_mesh = draco::ReadMeshFromFile("/home/mallesh/ws/draco_encoding_cpp/example2.obj", false);
   if (!maybe_mesh.ok()) {
       printf("Failed loading the input mesh: %s.\n", maybe_mesh.status().error_msg());
       throw std::exception();
@@ -100,7 +101,7 @@ int main() {
   int ret = -1;
 
   if (input_is_mesh) {
-    ret = EncodeMeshToFile(*mesh, "example.drc", expert_encoder.get());
+    ret = EncodeMeshToFile(*mesh, "example2.drc", expert_encoder.get());
   } else {
     ret = EncodePointCloudToFile(*pc, "example.drc", expert_encoder.get());
   }

@@ -89,6 +89,10 @@ Status ObjDecoder::DecodeInternal() {
   // In case the desired output is just a point cloud (i.e., when
   // out_mesh_ == nullptr) the decoder will ignore all information about the
   // connectivity that may be included in the source data.
+  //
+  
+  std::cout<<"attribute size: "<<out_point_cloud_->num_attributes()<<std::endl;
+
   counting_mode_ = true;
   ResetCounters();
   material_name_to_id_.clear();
