@@ -6,7 +6,44 @@
 #include "draco/io/mesh_io.h"
 #include "draco/io/point_cloud_io.h"
 
+#include <sys/ipc.h>
+#include <sys/msg.h>
+
 using namespace std;
+
+#define MAX 4096
+
+struct mesg_buffer {
+        long mesg_type;
+        char data[MAX];
+} message;
+
+int sendtomessagercv(const char *buffer, int size)
+{
+        key_t key;
+        int msgid;
+
+        // ftok to generate unique key
+        key = ftok("meshstreamer", 65);
+
+        // msgget creates a message queue
+        // and returns identifier
+        msgid = msgget(key, 0666 | IPC_CREAT);
+        message.mesg_type = 1;
+
+        int idx = 0;
+        while (size > MAX) {
+            memcpy(message.data, buffer+idx, MAX);
+
+            // msgsnd to send message
+            msgsnd(msgid, &message, sizeof(message), 0);
+	    printf("Message sent to rcv queue\n");
+            size -= MAX;
+            idx += MAX;
+        }
+
+        return 0;
+}
 
 int EncodeMeshToFile(const draco::Mesh &mesh, const std::string &file,
                      draco::ExpertEncoder *encoder) {
@@ -21,6 +58,9 @@ int EncodeMeshToFile(const draco::Mesh &mesh, const std::string &file,
     return -1;
   }
   timer.Stop();
+
+  sendtomessagercv(buffer.data(), buffer.size());
+
   // Save the encoded geometry into a file.
   if (!draco::WriteBufferToFile(buffer.data(), buffer.size(), file)) {
     printf("Failed to create the output file.\n");
