@@ -7,7 +7,7 @@ Compiling and running instructions
 
     `$mkdir build` 
     
-    `cd build`
+    `$cd build`
   
     `$cmake ..` 
   
