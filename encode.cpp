@@ -1,13 +1,13 @@
 #include <iostream>
 
-#include "draco/compression/encode.h"
-#include "draco/core/cycle_timer.h"
-#include "draco/io/file_utils.h"
-#include "draco/io/mesh_io.h"
-#include "draco/io/point_cloud_io.h"
+#include "/home/allan/draco/src/draco/compression/encode.h"
+#include "/home/allan/draco/src/draco/core/cycle_timer.h"
+#include "/home/allan/draco/src/draco/io/file_utils.h"
+#include "/home/allan/draco/src/draco/io/mesh_io.h"
+#include "/home/allan/draco/src/draco/io/point_cloud_io.h"
 
-#include <sys/ipc.h>
-#include <sys/msg.h>
+// #include <sys/ipc.h>
+// #include <sys/msg.h>
 
 using namespace std;
 
@@ -18,32 +18,32 @@ struct mesg_buffer {
         char data[MAX];
 } message;
 
-int sendtomessagercv(const char *buffer, int size)
-{
-        key_t key;
-        int msgid;
+// int sendtomessagercv(const char *buffer, int size)
+// {
+//         key_t key;
+//         int msgid;
 
-        // ftok to generate unique key
-        key = ftok("meshstreamer", 65);
+//         // ftok to generate unique key
+//         key = ftok("meshstreamer", 65);
 
-        // msgget creates a message queue
-        // and returns identifier
-        msgid = msgget(key, 0666 | IPC_CREAT);
-        message.mesg_type = 1;
+//         // msgget creates a message queue
+//         // and returns identifier
+//         msgid = msgget(key, 0666 | IPC_CREAT);
+//         message.mesg_type = 1;
 
-        int idx = 0;
-        while (size > MAX) {
-            memcpy(message.data, buffer+idx, MAX);
+//         int idx = 0;
+//         while (size > MAX) {
+//             memcpy(message.data, buffer+idx, MAX);
 
-            // msgsnd to send message
-            msgsnd(msgid, &message, sizeof(message), 0);
-	    printf("Message sent to rcv queue\n");
-            size -= MAX;
-            idx += MAX;
-        }
+//             // msgsnd to send message
+//             msgsnd(msgid, &message, sizeof(message), 0);
+// 	    printf("Message sent to rcv queue\n");
+//             size -= MAX;
+//             idx += MAX;
+//         }
 
-        return 0;
-}
+//         return 0;
+// }
 
 int EncodeMeshToFile(const draco::Mesh &mesh, const std::string &file,
                      draco::ExpertEncoder *encoder) {
@@ -59,7 +59,7 @@ int EncodeMeshToFile(const draco::Mesh &mesh, const std::string &file,
   }
   timer.Stop();
 
-  sendtomessagercv(buffer.data(), buffer.size());
+  // sendtomessagercv(buffer.data(), buffer.size());
 
   // Save the encoded geometry into a file.
   if (!draco::WriteBufferToFile(buffer.data(), buffer.size(), file)) {
@@ -101,7 +101,7 @@ int main() {
   std::unique_ptr<draco::PointCloud> pc;
   draco::Mesh *mesh = nullptr;
 
-  auto maybe_mesh = draco::ReadMeshFromFile("/home/mallesh/ws/draco_encoding_cpp/example2.obj", false);
+  auto maybe_mesh = draco::ReadMeshFromFile("/home/allan/draco_encode_cpp/bun_zipper.ply", false);
   if (!maybe_mesh.ok()) {
       printf("Failed loading the input mesh: %s.\n", maybe_mesh.status().error_msg());
       throw std::exception();
@@ -141,9 +141,9 @@ int main() {
   int ret = -1;
 
   if (input_is_mesh) {
-    ret = EncodeMeshToFile(*mesh, "example2.drc", expert_encoder.get());
+    ret = EncodeMeshToFile(*mesh, "compressed.drc", expert_encoder.get());
   } else {
-    ret = EncodePointCloudToFile(*pc, "example.drc", expert_encoder.get());
+    ret = EncodePointCloudToFile(*pc, "compressed.drc", expert_encoder.get());
   }
 
 //

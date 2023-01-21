@@ -15,4 +15,5 @@ Compiling and running instructions
 
 3. You should see the executable `draco_encode` inside the build folder.
 
-  
+note:
+Do "make install" in draco source build folder - /home/allan/draco/build
