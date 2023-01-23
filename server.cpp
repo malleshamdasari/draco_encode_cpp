@@ -6,6 +6,7 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <pthread.h>
 
 #include "/home/allan/draco/src/draco/compression/encode.h"
 #include "/home/allan/draco/src/draco/core/cycle_timer.h"
@@ -14,34 +15,41 @@
 #include "/home/allan/draco/src/draco/io/point_cloud_io.h"
 
 using namespace std;
-const char *get_error_text() {
+const char *get_error_text()
+{
 
 #if defined(_WIN32)
 
-    static char message[256] = {0};
-    FormatMessage(
-        FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
-        0, WSAGetLastError(), 0, message, 256, 0);
-    char *nl = strrchr(message, '\n');
-    if (nl) *nl = 0;
-    return message;
+	static char message[256] = {0};
+	FormatMessage(
+		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		0, WSAGetLastError(), 0, message, 256, 0);
+	char *nl = strrchr(message, '\n');
+	if (nl)
+		*nl = 0;
+	return message;
 
 #else
 
-    return strerror(errno);
+	return strerror(errno);
 
 #endif
-
 }
-
 
 #define MAX 4096
 #define PORT 8080
+#define NUM_THREADS 2
 
-
-
-int main(int argc, char const *argv[])
+typedef struct
 {
+	int port;
+	int id;
+} args_t;
+
+static void *transfer(void *data)
+{
+	args_t *args = (args_t *)data;
+
 	int server_fd, new_socket, valread;
 	struct sockaddr_in address;
 	int opt = 1;
@@ -65,11 +73,10 @@ int main(int argc, char const *argv[])
 	}
 	address.sin_family = AF_INET;
 	address.sin_addr.s_addr = INADDR_ANY;
-	address.sin_port = htons(PORT);
+	address.sin_port = htons(args->port);
 
 	// Forcefully attaching socket to the port 8080
-	if (bind(server_fd, (struct sockaddr *)&address,
-			 sizeof(address)) < 0)
+	if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0)
 	{
 		perror("bind failed");
 		exit(EXIT_FAILURE);
@@ -79,21 +86,14 @@ int main(int argc, char const *argv[])
 		perror("listen");
 		exit(EXIT_FAILURE);
 	}
-	if ((new_socket = accept(server_fd, (struct sockaddr *)&address,
-							 (socklen_t *)&addrlen)) < 0)
+	if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t *)&addrlen)) < 0)
 	{
 		perror("accept");
 		exit(EXIT_FAILURE);
 	}
 
-	// connection established, start transmitting
-
-	// char *serverInit = "transfer started";
-	// valread = read(new_socket, buffer, 1024);
-	// printf("server: %s\n", buffer);
-
 	draco::EncoderBuffer meshBuffer;
-	
+
 	std::unique_ptr<draco::PointCloud> pc;
 	draco::Mesh *mesh = nullptr;
 
@@ -139,35 +139,56 @@ int main(int argc, char const *argv[])
 		encoder.EncodePointCloudToBuffer(*pc, &meshBuffer);
 	}
 
-	// draco::WriteBufferToFile(meshBuffer.data(), 435464, "/home/allan/draco_encode_cpp/client/test.drc");
-	printf("mesh buffer size: %d\n",meshBuffer.size());
-	sprintf(buffer,"%d",meshBuffer.size());
-	int retSend;
-	retSend = send(new_socket, buffer, 1024, 0);
-	printf("send: %d\n",retSend);
+	printf("(%d) mesh buffer size: %d\n", args->id, meshBuffer.size());
+	sprintf(buffer, "%d", meshBuffer.size());
+	int response;
+	printf("(%d) server: transfer started; return: %d\n", args->id, response);
+	response = send(new_socket, buffer, 1024, 0);
+	printf("(%d) send: %d\n", args->id, response);
 
+	// connection established, start transmitting
 	char outBuffer[meshBuffer.size()] = {0};
-	
 	copy(meshBuffer.buffer()->begin(), meshBuffer.buffer()->end(), outBuffer);
 
 	int seek = 0;
 	int toTransfer = meshBuffer.size();
-	
-	while(toTransfer >= MAX){
-		
-		retSend = send(new_socket, outBuffer + seek, MAX , 0);
+
+	while (toTransfer >= MAX)
+	{
+		response = send(new_socket, outBuffer + seek, MAX, 0);
 		toTransfer -= MAX;
 		seek += MAX;
-		printf("send: %d\n",retSend);
-		printf("Last error was: %s\n", get_error_text());
+		printf("(%d) send: %d\n", args->id, response);
+		// printf("(%d) Last error was: %s\n", args->id, get_error_text());
 	}
-	retSend = send(new_socket, outBuffer + seek, toTransfer , 0);
-	printf("send: %d\n",retSend);
-	printf("server: transfer started; return: %d\n",retSend);
+	response = send(new_socket, outBuffer + seek, toTransfer, 0);
+	printf("(%d) send: %d\n", args->id, response);
+	
 
 	// closing the connected socket
 	close(new_socket);
 	// closing the listening socket
 	shutdown(server_fd, SHUT_RDWR);
+	return NULL;
+}
+
+int main(int argc, char const *argv[])
+{
+
+	pthread_t threads[NUM_THREADS];
+	args_t args[NUM_THREADS];
+
+	for (int i = 0; i < NUM_THREADS; i++)
+	{
+		args[i].port = PORT + i;
+		args[i].id = i;
+		pthread_create(&threads[i], NULL, transfer, &args[i]);
+	}
+
+	for (unsigned i = 0; i < NUM_THREADS; i++)
+	{
+		pthread_join(threads[i], NULL);
+	}
+
 	return 0;
 }

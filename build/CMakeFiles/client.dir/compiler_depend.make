@@ -84,6 +84,19 @@ CMakeFiles/client.dir/client.cpp.o: ../client.cpp \
   /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
   /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
   /usr/include/linux/close_range.h \
+  /usr/include/pthread.h \
+  /usr/include/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
+  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
+  /usr/include/time.h \
+  /usr/include/x86_64-linux-gnu/bits/time.h \
+  /usr/include/x86_64-linux-gnu/bits/timex.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
+  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
   /home/allan/draco/src/draco/compression/encode.h \
   /usr/local/include/draco/compression/config/compression_shared.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
@@ -145,19 +158,6 @@ CMakeFiles/client.dir/client.cpp.o: ../client.cpp \
   /usr/include/c++/11/ext/atomicity.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h \
-  /usr/include/pthread.h \
-  /usr/include/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
-  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
-  /usr/include/time.h \
-  /usr/include/x86_64-linux-gnu/bits/time.h \
-  /usr/include/x86_64-linux-gnu/bits/timex.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
-  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
-  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h \
   /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
   /usr/include/c++/11/bits/locale_classes.h \
@@ -429,15 +429,9 @@ CMakeFiles/client.dir/client.cpp.o: ../client.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/iscanonical.h:
 
-/usr/include/c++/11/bits/stl_pair.h:
+/usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
 
-/usr/include/c++/11/ext/atomicity.h:
-
-/usr/include/c++/11/ext/type_traits.h:
-
-/usr/include/c++/11/bits/functexcept.h:
-
-/usr/include/c++/11/streambuf:
+/usr/include/x86_64-linux-gnu/bits/floatn-common.h:
 
 /usr/include/c++/11/cwchar:
 
@@ -445,23 +439,9 @@ CMakeFiles/client.dir/client.cpp.o: ../client.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/sockaddr.h:
 
-/usr/include/c++/11/tuple:
-
-/usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
-
-/usr/include/x86_64-linux-gnu/bits/floatn-common.h:
-
-/usr/include/c++/11/bits/nested_exception.h:
-
 /usr/include/c++/11/bits/stringfwd.h:
 
 /usr/include/c++/11/pstl/pstl_config.h:
-
-/usr/include/c++/11/type_traits:
-
-/usr/include/x86_64-linux-gnu/sys/single_threaded.h:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h:
 
@@ -471,15 +451,7 @@ CMakeFiles/client.dir/client.cpp.o: ../client.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/confname.h:
 
-/usr/include/x86_64-linux-gnu/bits/time.h:
-
-/usr/include/x86_64-linux-gnu/bits/select.h:
-
 /usr/include/c++/11/algorithm:
-
-/usr/include/c++/11/bits/move.h:
-
-/usr/include/c++/11/bits/hash_bytes.h:
 
 /usr/include/c++/11/bits/string_view.tcc:
 
@@ -497,13 +469,29 @@ CMakeFiles/client.dir/client.cpp.o: ../client.cpp \
 
 /usr/local/include/draco/compression/config/compression_shared.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
+
+/usr/include/asm-generic/socket.h:
+
+/usr/include/c++/11/bits/invoke.h:
+
+/usr/include/x86_64-linux-gnu/bits/select.h:
+
+/usr/include/x86_64-linux-gnu/bits/time.h:
+
+/usr/include/c++/11/bits/stl_pair.h:
+
+/usr/include/c++/11/ext/atomicity.h:
+
+/usr/local/include/draco/metadata/metadata.h:
+
+/usr/include/c++/11/bits/unordered_map.h:
+
+/usr/include/pthread.h:
+
 /usr/include/linux/close_range.h:
 
 /usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
-
-/usr/include/c++/11/bits/char_traits.h:
-
-/usr/include/asm-generic/errno-base.h:
 
 /usr/include/x86_64-linux-gnu/bits/posix_opt.h:
 
@@ -525,6 +513,10 @@ CMakeFiles/client.dir/client.cpp.o: ../client.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:
 
+/usr/include/x86_64-linux-gnu/bits/timex.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/FILE.h:
 
 /usr/include/wchar.h:
@@ -536,8 +528,6 @@ CMakeFiles/client.dir/client.cpp.o: ../client.cpp \
 /usr/include/c++/11/debug/assertions.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h:
-
-/usr/include/pthread.h:
 
 /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
 
@@ -593,27 +583,29 @@ CMakeFiles/client.dir/client.cpp.o: ../client.cpp \
 
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
-/usr/include/c++/11/bits/cpp_type_traits.h:
-
-/usr/include/c++/11/bits/stl_iterator_base_funcs.h:
-
 /usr/local/include/draco/draco_features.h:
 
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
 
-/usr/include/c++/11/ext/numeric_traits.h:
-
 /usr/include/features.h:
 
 /usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
+/usr/include/c++/11/tr1/legendre_function.tcc:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:
+
+/usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
 
 /usr/include/c++/11/exception:
 
 /usr/include/x86_64-linux-gnu/bits/socket.h:
+
+/usr/include/c++/11/bits/functexcept.h:
+
+/usr/include/c++/11/streambuf:
 
 /usr/include/x86_64-linux-gnu/bits/time64.h:
 
@@ -639,6 +631,12 @@ CMakeFiles/client.dir/client.cpp.o: ../client.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
+
+/usr/include/c++/11/bits/stl_bvector.h:
+
 /usr/local/include/draco/attributes/geometry_attribute.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
@@ -659,6 +657,12 @@ CMakeFiles/client.dir/client.cpp.o: ../client.cpp \
 
 /usr/include/locale.h:
 
+/usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
+
+/usr/include/c++/11/bits/hash_bytes.h:
+
+/usr/include/c++/11/bits/move.h:
+
 /usr/local/include/draco/point_cloud/point_cloud.h:
 
 /usr/include/x86_64-linux-gnu/bits/getopt_core.h:
@@ -671,17 +675,29 @@ CMakeFiles/client.dir/client.cpp.o: ../client.cpp \
 
 /usr/include/stdlib.h:
 
+/usr/include/x86_64-linux-gnu/bits/setjmp.h:
+
+/usr/include/time.h:
+
+/usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
 
 /usr/include/stdio.h:
 
-/usr/local/include/draco/core/bounding_box.h:
+/usr/local/include/draco/compression/expert_encode.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
+/usr/include/x86_64-linux-gnu/bits/cpu-set.h:
 
-/usr/include/c++/11/bits/concept_check.h:
+/usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
 
-/usr/include/asm-generic/bitsperlong.h:
+/usr/include/c++/11/bits/char_traits.h:
+
+/usr/include/asm-generic/errno-base.h:
+
+/usr/include/linux/errno.h:
+
+/usr/include/c++/11/functional:
 
 /usr/local/include/draco/compression/config/encoding_features.h:
 
@@ -698,6 +714,30 @@ CMakeFiles/client.dir/client.cpp.o: ../client.cpp \
 /usr/local/include/draco/compression/config/draco_options.h:
 
 /usr/include/asm-generic/sockios.h:
+
+/usr/include/x86_64-linux-gnu/sys/single_threaded.h:
+
+/usr/include/c++/11/type_traits:
+
+/usr/include/c++/11/tuple:
+
+/usr/include/c++/11/bits/nested_exception.h:
+
+/usr/include/c++/11/ext/type_traits.h:
+
+/usr/include/c++/11/ext/numeric_traits.h:
+
+/usr/include/c++/11/bits/cpp_type_traits.h:
+
+/usr/include/c++/11/bits/stl_iterator_base_funcs.h:
+
+/usr/local/include/draco/core/bounding_box.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
+
+/usr/include/asm-generic/bitsperlong.h:
+
+/usr/include/c++/11/bits/concept_check.h:
 
 /usr/include/features-time64.h:
 
@@ -736,46 +776,6 @@ CMakeFiles/client.dir/client.cpp.o: ../client.cpp \
 /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h:
-
-/usr/local/include/draco/metadata/metadata.h:
-
-/usr/include/c++/11/bits/unordered_map.h:
-
-/usr/local/include/draco/compression/expert_encode.h:
-
-/usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
-
-/usr/include/x86_64-linux-gnu/bits/cpu-set.h:
-
-/usr/include/x86_64-linux-gnu/bits/setjmp.h:
-
-/usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
-
-/usr/include/time.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
-
-/usr/include/x86_64-linux-gnu/bits/timex.h:
-
-/usr/include/asm-generic/socket.h:
-
-/usr/include/c++/11/bits/invoke.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
-
-/usr/include/c++/11/bits/stl_bvector.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
-
-/usr/include/c++/11/tr1/legendre_function.tcc:
-
-/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:
-
-/usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
-
-/usr/include/c++/11/functional:
-
-/usr/include/linux/errno.h:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h:
 
@@ -975,8 +975,8 @@ CMakeFiles/client.dir/client.cpp.o: ../client.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls.h:
 
-/usr/include/c++/11/bits/postypes.h:
-
 /usr/include/x86_64-linux-gnu/bits/in.h:
+
+/usr/include/c++/11/bits/postypes.h:
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
