@@ -17,3 +17,5 @@ Compiling and running instructions
 
 note:
 Do "make install" in draco source build folder - /home/allan/draco/build
+
+./draco_decoder -i in.drc -o out.obj

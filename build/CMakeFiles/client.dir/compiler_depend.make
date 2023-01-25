@@ -326,8 +326,12 @@ CMakeFiles/client.dir/client.cpp.o: ../client.cpp \
   /usr/local/include/draco/core/decoder_buffer.h \
   /usr/local/include/draco/core/status_or.h \
   /usr/local/include/draco/compression/expert_encode.h \
-  /home/allan/draco/src/draco/io/point_cloud_io.h
+  /home/allan/draco/src/draco/io/ply_encoder.h \
+  /home/allan/draco/src/draco/io/point_cloud_io.h \
+  /home/allan/draco/src/draco/mesh/mesh.h
 
+
+/home/allan/draco/src/draco/mesh/mesh.h:
 
 /usr/local/include/draco/core/status_or.h:
 
@@ -470,6 +474,8 @@ CMakeFiles/client.dir/client.cpp.o: ../client.cpp \
 /usr/local/include/draco/compression/config/compression_shared.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
+
+/home/allan/draco/src/draco/io/ply_encoder.h:
 
 /usr/include/asm-generic/socket.h:
 
