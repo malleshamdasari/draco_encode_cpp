@@ -15,6 +15,20 @@
 #include "/home/allan/draco/src/draco/io/point_cloud_io.h"
 #include "/home/allan/draco/src/draco/mesh/mesh.h"
 
+#include "open3d/Open3D.h"
+#include "/home/allan/Open3D/cpp/open3d/io/TriangleMeshIO.h"
+#include "/home/allan/draco_encode_cpp/rplyCustom.h"
+#include "/home/allan/draco_encode_cpp/FilePLYCustom.h"
+
+#include "open3d/io/FileFormatIO.h"
+#include "open3d/io/LineSetIO.h"
+#include "open3d/io/PointCloudIO.h"
+#include "open3d/io/TriangleMeshIO.h"
+#include "open3d/io/VoxelGridIO.h"
+#include "open3d/utility/Logging.h"
+#include "open3d/utility/ProgressBar.h"
+#include "open3d/utility/ProgressReporters.h"
+
 using namespace std;
 const char *get_error_text()
 {
@@ -39,17 +53,211 @@ const char *get_error_text()
 
 #define MAX 4096
 #define PORT 8080
-#define NUM_THREADS 2
+#define NUM_THREADS 8
 
 int sock = 0;
 int valread = 0;
 int client_fd = 0;
+pthread_mutex_t fileMutex;
 
 typedef struct
 {
 	int port;
 	int id;
 } args_t;
+
+struct PLYReaderState {
+    open3d::utility::CountingProgressReporter *progress_bar;
+    open3d::geometry::TriangleMesh *mesh_ptr;
+    long vertex_index;
+    long vertex_num;
+    long normal_index;
+    long normal_num;
+    long color_index;
+    long color_num;
+    std::vector<unsigned int> face;
+    long face_index;
+    long face_num;
+};
+
+
+
+// custom class by anesathu; extension for dracro::PlyEncoder
+// purpose is to hijack output file writing functions and write to buffer in memory instead of physical file
+class custom : public draco::PlyEncoder
+{
+public:
+	bool EncodeToFileBuffer(const draco::Mesh &mesh, FILE *pFileBuffer);
+	bool EncodeToFileBuffer(const draco::PointCloud &pc, FILE *pFileBuffer);
+	bool Write(const char *buffer, size_t size);
+	// custom in_mesh_ variable (protected in the PlyEncoder class, so can't access)
+	const draco::Mesh *in_mesh_custom_;
+};
+
+bool custom::EncodeToFileBuffer(const draco::Mesh &mesh, FILE *pFileBuffer)
+{
+	in_mesh_custom_ = &mesh;
+	return EncodeToFileBuffer(static_cast<const draco::PointCloud &>(mesh), pFileBuffer);
+}
+
+bool custom::EncodeToFileBuffer(const draco::PointCloud &pc, FILE *pFileBuffer)
+{
+	//   std::unique_ptr<FileWriterInterface> file = FileWriterFactory::OpenWriter(file_name);
+	if (!pFileBuffer)
+	{
+		return false; // File couldn't be opened.
+	}
+	// Encode the mesh into a buffer.
+	draco::EncoderBuffer buffer;
+	if (!EncodeToBuffer(pc, &buffer))
+	{
+		return false;
+	}
+	// Write the buffer into the file.
+	return fwrite(buffer.data(), 1, buffer.size(), pFileBuffer) == buffer.size();
+}
+
+p_ply ply_open(FILE *pFileBuffer, p_ply_error_cb error_cb, long idata, void *pdata) {
+    FILE *fp = NULL; 
+    p_ply ply = ply_alloc();
+    if (error_cb == NULL) error_cb = ply_error_cb;
+    if (!ply) {
+        error_cb(NULL, "Out of memory");
+        return NULL;
+    }
+    ply->idata = idata;
+    ply->pdata = pdata;
+    ply->io_mode = PLY_READ;
+    ply->error_cb = error_cb;
+    if (!ply_type_check()) {
+        error_cb(ply, "Incompatible type system");
+        free(ply);
+        return NULL;
+    }
+    // assert(name);
+    // fp = fopen(name, "rb");
+	fp = pFileBuffer;
+    if (!fp) {
+        error_cb(ply, "Unable to open file");
+        free(ply);
+        return NULL;
+    }
+    ply->fp = fp;
+    return ply;
+}
+
+bool ReadTriangleMeshFromPLYCustom(const std::string &filename,
+                             open3d::geometry::TriangleMesh &mesh,
+                             const open3d::io::ReadTriangleMeshOptions &params /*={}*/) {
+    // using namespace open3d;
+	// using namespace io;
+	// using namespace ply_trianglemesh_reader;
+	// p_ply ply_open(const char *name, p_ply_error_cb error_cb, long idata, void *pdata) 
+    p_ply ply_file = ply_open(filename.c_str(), NULL, 0, NULL);
+    if (!ply_file) {
+        open3d::utility::LogWarning("Read PLY failed: unable to open file: {}",
+                            filename);
+        return false;
+    }
+    if (!ply_read_header(ply_file)) {
+        open3d::utility::LogWarning("Read PLY failed: unable to parse header.");
+        ply_close(ply_file);
+        return false;
+    }
+
+    PLYReaderState state;
+    state.mesh_ptr = &mesh;
+    state.vertex_num = ply_set_read_cb(ply_file, "vertex", "x", open3d::io::ply_pointcloud_reader::ReadVertexCallback, &state, 0);
+    ply_set_read_cb(ply_file, "vertex", "y", open3d::io::ply_pointcloud_reader::ReadVertexCallback, &state, 1);
+    ply_set_read_cb(ply_file, "vertex", "z", open3d::io::ply_pointcloud_reader::ReadVertexCallback, &state, 2);
+
+    state.normal_num = ply_set_read_cb(ply_file, "vertex", "nx", open3d::io::ply_pointcloud_reader::ReadNormalCallback, &state, 0);
+    ply_set_read_cb(ply_file, "vertex", "ny", open3d::io::ply_pointcloud_reader::ReadNormalCallback, &state, 1);
+    ply_set_read_cb(ply_file, "vertex", "nz", open3d::io::ply_pointcloud_reader::ReadNormalCallback, &state, 2);
+
+    state.color_num = ply_set_read_cb(ply_file, "vertex", "red", open3d::io::ply_pointcloud_reader::ReadColorCallback, &state, 0);
+    ply_set_read_cb(ply_file, "vertex", "green", open3d::io::ply_pointcloud_reader::ReadColorCallback, &state, 1);
+    ply_set_read_cb(ply_file, "vertex", "blue", open3d::io::ply_pointcloud_reader::ReadColorCallback, &state, 2);
+
+    if (state.vertex_num <= 0) {
+        open3d::utility::LogWarning("Read PLY failed: number of vertex <= 0.");
+        ply_close(ply_file);
+        return false;
+    }
+
+    state.face_num = ply_set_read_cb(ply_file, "face", "vertex_indices",open3d::io::ply_trianglemesh_reader::ReadFaceCallBack, &state, 0);
+    if (state.face_num == 0) {
+        state.face_num = ply_set_read_cb(ply_file, "face", "vertex_index",open3d::io::ply_trianglemesh_reader::ReadFaceCallBack, &state, 0);
+    }
+
+    state.vertex_index = 0;
+    state.normal_index = 0;
+    state.color_index = 0;
+    state.face_index = 0;
+
+    mesh.Clear();
+    mesh.vertices_.resize(state.vertex_num);
+    mesh.vertex_normals_.resize(state.normal_num);
+    mesh.vertex_colors_.resize(state.color_num);
+
+    open3d::utility::CountingProgressReporter reporter(params.update_progress);
+    reporter.SetTotal(state.vertex_num + state.face_num);
+    state.progress_bar = &reporter;
+
+    if (!ply_read(ply_file)) {
+        open3d::utility::LogWarning("Read PLY failed: unable to read file: {}",
+                            filename);
+        ply_close(ply_file);
+        return false;
+    }
+
+    ply_close(ply_file);
+    reporter.Finish();
+    return true;
+}
+
+static const std::unordered_map<std::string,std::function<bool(const std::string &,open3d::geometry::TriangleMesh &,const open3d::io::ReadTriangleMeshOptions &)>> file_extension_to_trianglemesh_read_function{{"ply", ReadTriangleMeshFromPLYCustom}};
+
+bool ReadTriangleMeshCustom(const std::string &filename,
+                      open3d::geometry::TriangleMesh &mesh,
+                      open3d::io::ReadTriangleMeshOptions params /*={}*/) {
+    std::string filename_ext = open3d::utility::filesystem::GetFileExtensionInLowerCase(filename);
+    if (filename_ext.empty()) {
+        open3d::utility::LogWarning(
+                "Read geometry::TriangleMesh failed: unknown file "
+                "extension.");
+        return false;
+    }
+    auto map_itr = file_extension_to_trianglemesh_read_function.find(filename_ext);
+    if (map_itr == file_extension_to_trianglemesh_read_function.end()) {
+        open3d::utility::LogWarning(
+                "Read geometry::TriangleMesh failed: unknown file "
+                "extension.");
+        return false;
+    }
+
+    // if (params.print_progress) {
+    //     auto progress_text = std::string("Reading ") +
+    //                          open3d::utility::ToUpper(filename_ext) +
+    //                          " file: " + filename;
+    //     auto pbar = open3d::utility::ProgressBar(100, progress_text, true);
+    //     params.update_progress = [pbar](double percent) mutable -> bool {
+    //         pbar.SetCurrentCount(size_t(percent));
+    //         return true;
+    //     };
+    // }
+
+    bool success = map_itr->second(filename, mesh, params);
+    open3d::utility::LogDebug(
+            "Read geometry::TriangleMesh: {:d} triangles and {:d} vertices.",
+            (int)mesh.triangles_.size(), (int)mesh.vertices_.size());
+    if (mesh.HasVertices() && !mesh.HasTriangles()) {
+        open3d::utility::LogWarning(
+                "geometry::TriangleMesh appears to be a geometry::PointCloud "
+                "(only contains vertices, but no triangles).");
+    }
+    return success;
+}
 
 static void *recieve(void *data)
 {
@@ -110,38 +318,78 @@ static void *recieve(void *data)
 	draco::EncoderBuffer encoderBuffer;
 	encoderBuffer.buffer()->insert(encoderBuffer.buffer()->end(), &inBuffer[0], &inBuffer[totalRead]);
 
-	// char outPath[1024] = {0};
-	// sprintf(outPath,"/home/allan/draco_encode_cpp/client/%d/test.drc",args->id);
-	// draco::WriteBufferToFile(encoderBuffer.data(), totalRead, outPath);
-	// printf("(%d) saved to file: %s\n", args->id, outPath);
-
 	draco::DecoderBuffer decoderBuffer;
 	decoderBuffer.Init(encoderBuffer.data(), encoderBuffer.size());
 
-	// draco::Mesh *mesh = nullptr;
-	// std::unique_ptr<draco::Mesh> mesh(new Mesh());
-
-	draco::Decoder decoder_no_skip;
 	draco::Decoder decoder;
 	std::unique_ptr<draco::Mesh> meshToSave = decoder.DecodeMeshFromBuffer(&decoderBuffer).value();
-	// decoder.DecodeBufferToGeometry(decoderBuffer, mesh);
-	// std::unique_ptr<draco::Mesh> mesh = decoder.DecodeMeshFromBuffer(&decoderBuffer).value();
-	// decoder.DecodeBufferToGeometry(decoderBuffer, mesh);
-	// mesh = decoder.DecodeMeshFromBuffer(&decoderBuffer);
 
-	char outPath[1024] = {0};
-	sprintf(outPath, "/home/allan/draco_encode_cpp/client/%d/test.ply", args->id);
-	// draco::WriteBufferToFile(decoder_no_skip, totalRead, outPath);
-	// bool EncodeToFile(const Mesh &mesh, const std::string &file_name);
+	// have draco buffer
+	// need to convert in to open3d model
+	// want to hijack the outstream and direct the data to a custom out stream instead of a real file
+
+	// fwrite(pFile, sizeof(char), totalRead, pFile);
+	// for (int i = 0; i < 100; i++)
+	// {
+	// 	printf("face: %d %d %d \n", meshToSave->face(draco::FaceIndex(i))[0],
+	// 		   meshToSave->face(draco::FaceIndex(i))[1],
+	// 		   meshToSave->face(draco::FaceIndex(i))[2]);
+
+	// 	// std::cout << inBuffer[i];
+	// 	// std::cout << meshToSave->face(draco::FaceIndex(i))[1].value() << " \n ";
+	// }
+
 	draco::PlyEncoder plyEncoder;
-	plyEncoder.EncodeToFile(*(meshToSave.get()), outPath);
-	printf("(%d) saved to file: %s\n", args->id, outPath);
+	custom plyEncoderCustom;
+	char outPath[1024] = {0};
+	sprintf(outPath, "/home/allan/draco_encode_cpp/client/test_thread%d.ply", args->id);
+	// Without lock: Bad file descriptor (corrupts the .ply file)
+
+	printf("DEBUG: \n");
+	FILE *pFile;
+	char emptyBuffer[0];
+	pFile = fmemopen(NULL, totalRead * sizeof(char), "w");
+
+	bool success = plyEncoderCustom.EncodeToFileBuffer(*(meshToSave.get()), pFile);
+	printf("buffer save success: %d\n", success);
+
+	// now use open3d to read this virtual file (in the form of a file pointer stream)
+	
+	// display the photo
+	if(args->id == 0){
+		pthread_mutex_lock(&fileMutex);
+		auto mesh_ptr = std::make_shared<open3d::geometry::TriangleMesh>();
+		// if (open3d::io::ReadTriangleMesh("/home/allan/draco_encode_cpp/bun_zipper.ply", *mesh_ptr))
+		if (ReadTriangleMeshCustom("/home/allan/draco_encode_cpp/bun_zipper.ply", *mesh_ptr))
+		{
+			open3d::utility::LogInfo("Successfully read {}\n", "/home/allan/draco_encode_cpp/bun_zipper.ply");
+		}
+		else
+		{
+			open3d::utility::LogWarning("Failed to read {}\n\n", "/home/allan/draco_encode_cpp/bun_zipper.ply");
+			// return 1;
+		}
+		mesh_ptr->ComputeVertexNormals();
+		open3d::visualization::DrawGeometries({mesh_ptr}, "Mesh", 1600, 900);
+		pthread_mutex_unlock(&fileMutex);
+		// utility::LogInfo("vertices: {} {} {}\n",mesh_ptr->vertices_[0][0], mesh_ptr->vertices_[0][1], mesh_ptr->vertices_[0][2]);
+		open3d::utility::LogInfo("vertices: {}\n", mesh_ptr->vertices_);
+		open3d::utility::LogInfo("triangles: {}\n", mesh_ptr->triangles_);
+	}
+	// pthread_mutex_lock(&fileMutex);
+	// plyEncoder.EncodeToFile(*(meshToSave.get()), outPath);
+	// pthread_mutex_unlock(&fileMutex);
+	// printf("(%d) saved to file: %s\n", args->id, outPath);
+
+	// open3d::utility::LogInfo("vertices: {}\n",inBuffer[0]);
 
 	// closing the connected socket
-	// printf("Last error was: %s\n", get_error_text());
+	printf("Last error was: %s\n", get_error_text());
 	close(client_fd);
+	return NULL;
 	// printf("Last error was: %s\n", get_error_text());
 }
+
 
 int main(int argc, char const *argv[])
 {

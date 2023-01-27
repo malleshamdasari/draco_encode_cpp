@@ -19,3 +19,7 @@ note:
 Do "make install" in draco source build folder - /home/allan/draco/build
 
 ./draco_decoder -i in.drc -o out.obj
+
+when building open3d from source:
+cmake -DGLIBCXX_USE_CXX11_ABI=ON ..
+^ flag very important or else external projects won't link properly

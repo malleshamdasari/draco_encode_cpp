@@ -13,6 +13,7 @@
 #include "/home/allan/draco/src/draco/io/file_utils.h"
 #include "/home/allan/draco/src/draco/io/mesh_io.h"
 #include "/home/allan/draco/src/draco/io/point_cloud_io.h"
+// #include "open3d/Open3D.h"
 
 using namespace std;
 const char *get_error_text()
@@ -38,7 +39,7 @@ const char *get_error_text()
 
 #define MAX 4096
 #define PORT 8080
-#define NUM_THREADS 2
+#define NUM_THREADS 8
 
 typedef struct
 {
@@ -164,7 +165,6 @@ static void *transfer(void *data)
 	response = send(new_socket, outBuffer + seek, toTransfer, 0);
 	printf("(%d) send: %d\n", args->id, response);
 	
-
 	// closing the connected socket
 	close(new_socket);
 	// closing the listening socket

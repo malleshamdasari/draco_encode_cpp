@@ -155,6 +155,43 @@ client/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/build
 .PHONY : client/fast
 
+#=============================================================================
+# Target rules for targets named TestVisualizer
+
+# Build rule for target.
+TestVisualizer: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 TestVisualizer
+.PHONY : TestVisualizer
+
+# fast build rule for target.
+TestVisualizer/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TestVisualizer.dir/build.make CMakeFiles/TestVisualizer.dir/build
+.PHONY : TestVisualizer/fast
+
+TestVisualizer.o: TestVisualizer.cpp.o
+.PHONY : TestVisualizer.o
+
+# target to build an object file
+TestVisualizer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TestVisualizer.dir/build.make CMakeFiles/TestVisualizer.dir/TestVisualizer.cpp.o
+.PHONY : TestVisualizer.cpp.o
+
+TestVisualizer.i: TestVisualizer.cpp.i
+.PHONY : TestVisualizer.i
+
+# target to preprocess a source file
+TestVisualizer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TestVisualizer.dir/build.make CMakeFiles/TestVisualizer.dir/TestVisualizer.cpp.i
+.PHONY : TestVisualizer.cpp.i
+
+TestVisualizer.s: TestVisualizer.cpp.s
+.PHONY : TestVisualizer.s
+
+# target to generate assembly for a file
+TestVisualizer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TestVisualizer.dir/build.make CMakeFiles/TestVisualizer.dir/TestVisualizer.cpp.s
+.PHONY : TestVisualizer.cpp.s
+
 client.o: client.cpp.o
 .PHONY : client.o
 
@@ -235,9 +272,13 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... TestVisualizer"
 	@echo "... client"
 	@echo "... draco_encode"
 	@echo "... server"
+	@echo "... TestVisualizer.o"
+	@echo "... TestVisualizer.i"
+	@echo "... TestVisualizer.s"
 	@echo "... client.o"
 	@echo "... client.i"
 	@echo "... client.s"
