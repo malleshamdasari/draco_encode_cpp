@@ -117,152 +117,65 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named draco_encode
+# Target rules for targets named test
 
 # Build rule for target.
-draco_encode: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 draco_encode
-.PHONY : draco_encode
+test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test
+.PHONY : test
 
 # fast build rule for target.
-draco_encode/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/draco_encode.dir/build.make CMakeFiles/draco_encode.dir/build
-.PHONY : draco_encode/fast
+test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
+.PHONY : test/fast
 
-#=============================================================================
-# Target rules for targets named server
-
-# Build rule for target.
-server: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 server
-.PHONY : server
-
-# fast build rule for target.
-server/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/build
-.PHONY : server/fast
-
-#=============================================================================
-# Target rules for targets named client
-
-# Build rule for target.
-client: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 client
-.PHONY : client
-
-# fast build rule for target.
-client/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/build
-.PHONY : client/fast
-
-#=============================================================================
-# Target rules for targets named TestVisualizer
-
-# Build rule for target.
-TestVisualizer: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 TestVisualizer
-.PHONY : TestVisualizer
-
-# fast build rule for target.
-TestVisualizer/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TestVisualizer.dir/build.make CMakeFiles/TestVisualizer.dir/build
-.PHONY : TestVisualizer/fast
-
-TestVisualizer.o: TestVisualizer.cpp.o
-.PHONY : TestVisualizer.o
+plyEncoderCustom.o: plyEncoderCustom.cpp.o
+.PHONY : plyEncoderCustom.o
 
 # target to build an object file
-TestVisualizer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TestVisualizer.dir/build.make CMakeFiles/TestVisualizer.dir/TestVisualizer.cpp.o
-.PHONY : TestVisualizer.cpp.o
+plyEncoderCustom.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/plyEncoderCustom.cpp.o
+.PHONY : plyEncoderCustom.cpp.o
 
-TestVisualizer.i: TestVisualizer.cpp.i
-.PHONY : TestVisualizer.i
+plyEncoderCustom.i: plyEncoderCustom.cpp.i
+.PHONY : plyEncoderCustom.i
 
 # target to preprocess a source file
-TestVisualizer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TestVisualizer.dir/build.make CMakeFiles/TestVisualizer.dir/TestVisualizer.cpp.i
-.PHONY : TestVisualizer.cpp.i
+plyEncoderCustom.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/plyEncoderCustom.cpp.i
+.PHONY : plyEncoderCustom.cpp.i
 
-TestVisualizer.s: TestVisualizer.cpp.s
-.PHONY : TestVisualizer.s
+plyEncoderCustom.s: plyEncoderCustom.cpp.s
+.PHONY : plyEncoderCustom.s
 
 # target to generate assembly for a file
-TestVisualizer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TestVisualizer.dir/build.make CMakeFiles/TestVisualizer.dir/TestVisualizer.cpp.s
-.PHONY : TestVisualizer.cpp.s
+plyEncoderCustom.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/plyEncoderCustom.cpp.s
+.PHONY : plyEncoderCustom.cpp.s
 
-client.o: client.cpp.o
-.PHONY : client.o
+test.o: test.cpp.o
+.PHONY : test.o
 
 # target to build an object file
-client.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client.cpp.o
-.PHONY : client.cpp.o
+test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.o
+.PHONY : test.cpp.o
 
-client.i: client.cpp.i
-.PHONY : client.i
-
-# target to preprocess a source file
-client.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client.cpp.i
-.PHONY : client.cpp.i
-
-client.s: client.cpp.s
-.PHONY : client.s
-
-# target to generate assembly for a file
-client.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client.cpp.s
-.PHONY : client.cpp.s
-
-encode.o: encode.cpp.o
-.PHONY : encode.o
-
-# target to build an object file
-encode.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/draco_encode.dir/build.make CMakeFiles/draco_encode.dir/encode.cpp.o
-.PHONY : encode.cpp.o
-
-encode.i: encode.cpp.i
-.PHONY : encode.i
+test.i: test.cpp.i
+.PHONY : test.i
 
 # target to preprocess a source file
-encode.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/draco_encode.dir/build.make CMakeFiles/draco_encode.dir/encode.cpp.i
-.PHONY : encode.cpp.i
+test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.i
+.PHONY : test.cpp.i
 
-encode.s: encode.cpp.s
-.PHONY : encode.s
-
-# target to generate assembly for a file
-encode.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/draco_encode.dir/build.make CMakeFiles/draco_encode.dir/encode.cpp.s
-.PHONY : encode.cpp.s
-
-server.o: server.cpp.o
-.PHONY : server.o
-
-# target to build an object file
-server.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/server.cpp.o
-.PHONY : server.cpp.o
-
-server.i: server.cpp.i
-.PHONY : server.i
-
-# target to preprocess a source file
-server.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/server.cpp.i
-.PHONY : server.cpp.i
-
-server.s: server.cpp.s
-.PHONY : server.s
+test.s: test.cpp.s
+.PHONY : test.s
 
 # target to generate assembly for a file
-server.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/server.cpp.s
-.PHONY : server.cpp.s
+test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.s
+.PHONY : test.cpp.s
 
 # Help Target
 help:
@@ -272,22 +185,13 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... TestVisualizer"
-	@echo "... client"
-	@echo "... draco_encode"
-	@echo "... server"
-	@echo "... TestVisualizer.o"
-	@echo "... TestVisualizer.i"
-	@echo "... TestVisualizer.s"
-	@echo "... client.o"
-	@echo "... client.i"
-	@echo "... client.s"
-	@echo "... encode.o"
-	@echo "... encode.i"
-	@echo "... encode.s"
-	@echo "... server.o"
-	@echo "... server.i"
-	@echo "... server.s"
+	@echo "... test"
+	@echo "... plyEncoderCustom.o"
+	@echo "... plyEncoderCustom.i"
+	@echo "... plyEncoderCustom.s"
+	@echo "... test.o"
+	@echo "... test.i"
+	@echo "... test.s"
 .PHONY : help
 
 

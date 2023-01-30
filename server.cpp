@@ -39,7 +39,7 @@ const char *get_error_text()
 
 #define MAX 4096
 #define PORT 8080
-#define NUM_THREADS 8
+#define NUM_THREADS 1
 
 typedef struct
 {
@@ -140,8 +140,8 @@ static void *transfer(void *data)
 		encoder.EncodePointCloudToBuffer(*pc, &meshBuffer);
 	}
 
-	printf("(%d) mesh buffer size: %d\n", args->id, meshBuffer.size());
-	sprintf(buffer, "%d", meshBuffer.size());
+	printf("(%d) mesh buffer size: %ld\n", args->id, meshBuffer.size());
+	sprintf(buffer, "%ld", meshBuffer.size());
 	int response;
 	printf("(%d) server: transfer started; return: %d\n", args->id, response);
 	response = send(new_socket, buffer, 1024, 0);

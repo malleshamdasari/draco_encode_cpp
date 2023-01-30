@@ -1,6 +1,3 @@
-/home/allan/draco_encode_cpp/build/CMakeFiles/draco_encode.dir
-/home/allan/draco_encode_cpp/build/CMakeFiles/server.dir
-/home/allan/draco_encode_cpp/build/CMakeFiles/client.dir
-/home/allan/draco_encode_cpp/build/CMakeFiles/TestVisualizer.dir
+/home/allan/draco_encode_cpp/build/CMakeFiles/test.dir
 /home/allan/draco_encode_cpp/build/CMakeFiles/edit_cache.dir
 /home/allan/draco_encode_cpp/build/CMakeFiles/rebuild_cache.dir

@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 
-#include "/home/allan/draco_encode_cpp/rplyCustom.h"
+// #include "rply.h"
 
 /* ----------------------------------------------------------------------
  * Make sure we get our integer types right

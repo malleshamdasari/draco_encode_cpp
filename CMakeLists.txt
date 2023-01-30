@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(DracoEncode)
+project(test)
 find_package(draco REQUIRED)
 
 project(TestVisualizer LANGUAGES C CXX)
@@ -15,16 +15,36 @@ if(NOT Open3D_FOUND)
     message(FATAL_ERROR "Open3D not found, please use -DCMAKE_INSTALL_PREFIX=open3d_install_dir")
 endif()
 
-add_executable(draco_encode ./encode.cpp)
-add_executable(server ./server.cpp)
-add_executable(client ./client.cpp)
-add_executable(TestVisualizer ./TestVisualizer.cpp)
-#add_executable(rply ./rplyCustom.cpp)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/hdr)
+include_directories(/home/allan/draco_encode_cpp)
 
-target_link_libraries(draco_encode -Wl,--whole-archive draco -Wl,--no-whole-archive)
-target_link_libraries(server -Wl,--whole-archive draco -Wl,--no-whole-archive Open3D::Open3D)
-target_link_libraries(client -Wl,--whole-archive draco -Wl,--no-whole-archive Open3D::Open3D  )
+file(GLOB SOURCES
+    /home/allan/draco_encode_cpp/plyEncoderCustom.h
+    /home/allan/draco_encode_cpp/plyEncoderCustom.cpp
+)
 
-target_link_libraries(TestVisualizer Open3D::Open3D)
 
+
+#add_library(rply STATIC rplyCustom.cpp rplyCustom.h)
+
+#add_executable(draco_encode ./encode.cpp)
+#add_executable(server ./server.cpp ./plyEncoderCustom.cpp ./rplyCustom.cpp ./stdio_file_writerCustom.cpp)
+#add_executable(client ./client.cpp ./plyEncoderCustom.cpp ./rplyCustom.cpp ./stdio_file_writerCustom.cpp)
+#add_executable(TestVisualizer ./TestVisualizer.cpp)
+#add_executable(test ./test.cpp ./plyEncoderCustom.cpp ./rplyCustom.cpp ./stdio_file_writerCustom.cpp)
+#add_executable(test ./test.cpp ./plyEncoderCustom.cpp ./rplyCustom.cpp)
+add_executable(test ./test.cpp ${SOURCES})
+#add_executable(test ./test.cpp )
+
+# include_directories(${CMAKE_CURRENT_SOURCE_DIR}/hdr)
+
+target_link_libraries(test -Wl,--whole-archive draco -Wl,--no-whole-archive Open3D::Open3D)
+
+
+#target_link_libraries(draco_encode -Wl,--whole-archive draco -Wl,--no-whole-archive )
+#target_link_libraries(server -Wl,--whole-archive draco -Wl,--no-whole-archive Open3D::Open3D)
+#target_link_libraries(client -Wl,--whole-archive draco -Wl,--no-whole-archive Open3D::Open3D)
+#target_link_libraries(TestVisualizer Open3D::Open3D)
+
+
+
+add_definitions(-Wall -Wextra -ggdb -O0 -Wunreachable-code -g)
