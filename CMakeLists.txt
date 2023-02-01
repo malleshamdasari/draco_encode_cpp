@@ -22,8 +22,6 @@ file(GLOB SOURCES
     /home/allan/draco_encode_cpp/plyEncoderCustom.cpp
 )
 
-
-
 #add_library(rply STATIC rplyCustom.cpp rplyCustom.h)
 
 #add_executable(draco_encode ./encode.cpp)
