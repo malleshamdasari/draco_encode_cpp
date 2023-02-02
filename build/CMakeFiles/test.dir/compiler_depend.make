@@ -639,6 +639,7 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
   /usr/local/include/draco/compression/expert_encode.h \
   /home/allan/draco/src/draco/io/point_cloud_io.h \
   /home/allan/draco/src/draco/mesh/mesh.h \
+  /home/allan/draco/src/draco/mesh/corner_table.h \
   /usr/local/include/open3d/Open3D.h \
   /usr/local/include/open3d/Open3DConfig.h \
   /usr/local/include/open3d/camera/PinholeCameraIntrinsic.h \
@@ -1417,6 +1418,8 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 /usr/include/c++/11/bits/std_mutex.h:
 
 /usr/include/c++/11/bits/parse_numbers.h:
+
+/usr/include/c++/11/ratio:
 
 /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
 
@@ -2398,6 +2401,8 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /home/allan/draco/src/draco/mesh/mesh.h:
 
+/home/allan/draco/src/draco/mesh/corner_table.h:
+
 /usr/local/include/open3d/utility/Console.h:
 
 /usr/local/include/open3d/Open3D.h:
@@ -2677,5 +2682,3 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 /usr/local/include/open3d/3rdparty/Eigen/src/Core/products/TriangularSolverMatrix.h:
 
 /usr/include/c++/11/mutex:
-
-/usr/include/c++/11/ratio:

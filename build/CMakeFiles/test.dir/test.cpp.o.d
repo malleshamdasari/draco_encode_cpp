@@ -281,6 +281,7 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
  /usr/local/include/draco/compression/expert_encode.h \
  /home/allan/draco/src/draco/io/point_cloud_io.h \
  /home/allan/draco/src/draco/mesh/mesh.h \
+ /home/allan/draco/src/draco/mesh/corner_table.h \
  /usr/local/include/open3d/Open3D.h \
  /usr/local/include/open3d/Open3DConfig.h \
  /usr/local/include/open3d/camera/PinholeCameraIntrinsic.h \
