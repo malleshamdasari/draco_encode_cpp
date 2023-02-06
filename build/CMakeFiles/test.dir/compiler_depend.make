@@ -640,6 +640,7 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
   /home/allan/draco/src/draco/io/point_cloud_io.h \
   /home/allan/draco/src/draco/mesh/mesh.h \
   /home/allan/draco/src/draco/mesh/corner_table.h \
+  /home/allan/draco/src/draco/attributes/point_attribute.h \
   /usr/local/include/open3d/Open3D.h \
   /usr/local/include/open3d/Open3DConfig.h \
   /usr/local/include/open3d/camera/PinholeCameraIntrinsic.h \
@@ -1466,6 +1467,10 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/include/c++/11/bits/hashtable.h:
 
+/usr/include/c++/11/chrono:
+
+/home/allan/draco/src/draco/io/point_cloud_io.h:
+
 /usr/local/include/open3d/visualization/visualizer/VisualizerWithKeyCallback.h:
 
 /usr/local/include/draco/mesh/mesh.h:
@@ -1539,8 +1544,6 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_base.h:
-
-/usr/include/wctype.h:
 
 /usr/include/sched.h:
 
@@ -1758,10 +1761,6 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/local/include/open3d/3rdparty/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h:
 
-/home/allan/draco/src/draco/io/point_cloud_io.h:
-
-/usr/include/c++/11/chrono:
-
 /usr/include/c++/11/bits/uses_allocator.h:
 
 /usr/local/include/open3d/visualization/shader/TexturePhongShader.h:
@@ -1853,6 +1852,10 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 /usr/local/include/open3d/visualization/visualizer/ViewTrajectory.h:
 
 /usr/include/c++/11/streambuf:
+
+/usr/include/wctype.h:
+
+/home/allan/draco/src/draco/attributes/point_attribute.h:
 
 /usr/include/x86_64-linux-gnu/bits/getopt_core.h:
 
