@@ -21,6 +21,7 @@
 #include "/home/allan/draco/src/draco/mesh/mesh.h"
 #include "/home/allan/draco/src/draco/mesh/corner_table.h"
 #include "/home/allan/draco/src/draco/attributes/point_attribute.h"
+#include "/home/allan/draco/src/draco/mesh/triangle_soup_mesh_builder.h"
 
 #include "open3d/Open3D.h"
 #include "open3d/io/FileFormatIO.h"
@@ -67,73 +68,135 @@ int main(int argc, char const *argv[])
     open3d::io::ReadTriangleMeshOptions inOpt;
     // {vertex index}/{vertex texture coordinate index}/{vertex normal index}
     open3d::io::ReadTriangleMeshFromOBJ("/home/allan/draco_encode_cpp/custom0.obj", *inOpen3d, inOpt);
+    // open3d::io::ReadTriangleMeshFromOBJ("/home/allan/draco_encode_cpp/example2.obj", *inOpen3d, inOpt);
 
-    draco::Mesh *open3dToDracoMesh = nullptr;
+    std::cout << "start writing open3d to draco" << std::endl;
+    // Using triangle_soup_mesh_builder as reference
+    // draco::TriangleSoupMeshBuilder meshBuilder;
+
+    // meshBuilder.Start(inOpen3d->triangles_.size());
+
+    // std::unique_ptr<draco::Mesh> open3dToDracoMesh(new draco::Mesh());
+    draco::Mesh *open3dToDracoMesh = new draco::Mesh();
+    // TODO: this may be incorrect... need to confirm later
+    open3dToDracoMesh->set_num_points((uint32_t)inOpen3d->vertices_.size());
+    open3dToDracoMesh->SetNumFaces(inOpen3d->triangles_.size());
     draco::PointAttribute open3dToDracoPositionAttribute;
     draco::PointAttribute open3dToDracoNormalAttribute;
-    
-    open3dToDracoPositionAttribute.set_attribute_type();
 
-    // need to create 2 attributes (POSITION, NORMAL)
-    // need to create and add faces to the mesh
-    // open3dToDracoMesh->AddAttribute()
+    // type based off enum in geometry_attribute.h
+    open3dToDracoPositionAttribute.Init(draco::PointAttribute::Type(0), 3, draco::DataType::DT_FLOAT64, true, inOpen3d->vertices_.size());
+    open3dToDracoNormalAttribute.Init(draco::PointAttribute::Type(1), 3, draco::DataType::DT_FLOAT64, true, inOpen3d->vertex_normals_.size());
 
-    // copy vertex and normal data from open3d to draco 
+    // meshBuilder.AddAttribute(open3dToDracoPositionAttribute, 3, draco::DataType::DT_FLOAT64);
+    // meshBuilder.AddAttribute(open3dToDracoNormalAttribute, 3, draco::DataType::DT_FLOAT64);
+
+    // add these attributes to the mesh
+    // TODO: mapping may need to be changed to true
+    int32_t open3dToDracoPositionAttributeID = open3dToDracoMesh->AddAttribute(open3dToDracoPositionAttribute, true, (uint32_t)inOpen3d->vertices_.size());
+    int32_t open3dToDracoNormalAttributeID = open3dToDracoMesh->AddAttribute(open3dToDracoNormalAttribute, true, (uint32_t)inOpen3d->vertex_normals_.size());
+
+    std::cout << "adding vertices" << std::endl;
+    // initialize attribute vertex values from open3d
+    unsigned int inOpen3dAttributeIdx = 0;
     for (auto itr = inOpen3d->vertices_.begin(); itr != inOpen3d->vertices_.end(); itr++)
     {
         // std::cout << count << " : ";
-        // std::cout << (*itr)[0] << ", " << (*itr)[1] << ", " << (*itr)[2] << "\n";
-        Eigen::Vector3d tmpVec((*itr)[0], (*itr)[1], (*itr)[2]);
-
+        std::cout << (*itr)[0] << ", " << (*itr)[1] << ", " << (*itr)[2] << "\n";
+        double inOpen3dVertex[3];
+        inOpen3dVertex[0] = (*itr)[0];
+        inOpen3dVertex[1] = (*itr)[1];
+        inOpen3dVertex[2] = (*itr)[2];
+        open3dToDracoMesh->attribute(open3dToDracoPositionAttributeID)->SetAttributeValue(draco::AttributeValueIndex(inOpen3dAttributeIdx), &inOpen3dVertex[0]);
+        inOpen3dAttributeIdx++;
     }
-    
+
+    std::cout << "adding vertex normals" << std::endl;
+    inOpen3dAttributeIdx = 0;
     for (auto itr = inOpen3d->vertex_normals_.begin(); itr != inOpen3d->vertex_normals_.end(); itr++)
     {
         // std::cout << count << " : ";
-        // std::cout << (*itr)[0] << ", " << (*itr)[1] << ", " << (*itr)[2] << "\n";
-        Eigen::Vector3d tmpVec((*itr)[0], (*itr)[1], (*itr)[2]);
-        
+        std::cout << (*itr)[0] << ", " << (*itr)[1] << ", " << (*itr)[2] << "\n";
+        double inOpen3dVertex[3];
+        inOpen3dVertex[0] = (*itr)[0];
+        inOpen3dVertex[1] = (*itr)[1];
+        inOpen3dVertex[2] = (*itr)[2];
+        open3dToDracoMesh->attribute(open3dToDracoNormalAttributeID)->SetAttributeValue(draco::AttributeValueIndex(inOpen3dAttributeIdx), &inOpen3dVertex[0]);
+        inOpen3dAttributeIdx++;
     }
 
-    // copy triangle data from open3d to draco 
-    // int count2 =0;
-    for (auto itr = inOpen3d->triangles_.begin(); itr != inOpen3d->triangles_.end(); itr++)
+    // faces look to be successfully added to the open3dtodracomesh -> failure must be somewhere else TODO
+    for (unsigned long i = 0; i < inOpen3d->triangles_.size(); ++i)
     {
-        std::cout << "(" << (*itr)[0] << ") " << inOpen3d->vertices_[(*itr)[0]][0] << " " << inOpen3d->vertices_[(*itr)[0]][1] << " " << inOpen3d->vertices_[(*itr)[0]][2] << " ";
-        std::cout << "(" << (*itr)[1] << ") " << inOpen3d->vertices_[(*itr)[1]][0] << " " << inOpen3d->vertices_[(*itr)[1]][1] << " " << inOpen3d->vertices_[(*itr)[1]][2] << " ";
-        std::cout << "(" << (*itr)[2] << ") " << inOpen3d->vertices_[(*itr)[2]][0] << " " << inOpen3d->vertices_[(*itr)[2]][1] << " " << inOpen3d->vertices_[(*itr)[2]][2] << std::endl;
+        // adding faces broken
+        // const draco::Mesh::Face tmpFace({draco::PointIndex((uint32_t)inOpen3d->triangles_[i][0]),draco::PointIndex((uint32_t)inOpen3d->triangles_[i][1]),draco::PointIndex((uint32_t)inOpen3d->triangles_[i][2])});
+        draco::Mesh::Face tmpFace = draco::Mesh::Face();
+        tmpFace[0] = draco::PointIndex((uint32_t)inOpen3d->triangles_[i][0]);
+        tmpFace[1] = draco::PointIndex((uint32_t)inOpen3d->triangles_[i][1]);
+        tmpFace[2] = draco::PointIndex((uint32_t)inOpen3d->triangles_[i][2]);
+
+        // open3dToDracoMesh->AddFace(tmpFace);
+        open3dToDracoMesh->SetFace(draco::FaceIndex(i),tmpFace);
+        
+        std::cout << "tmp face: " << open3dToDracoMesh->face(draco::FaceIndex(i))[0].value()
+                  << " " << open3dToDracoMesh->face(draco::FaceIndex(i))[1].value() << " " 
+                  << open3dToDracoMesh->face(draco::FaceIndex(i))[2].value() << std::endl;
     }
 
+    
 
+    // open3dToDracoMesh->face(0)
 
+    std::cout << "finished writing open3d to draco" << std::endl;
 
+    //
+    //     mesh->set_num_points(num_vertices);   // 4 in your case
+    //     // Create position and normal attributes.
+    //     GeometryAttribute pa;
+    //     va.Init(GeometryAttribute::POSITION, nullptr, 3, DT_FLOAT32, false, sizeof(float) * 3, 0);
+    //     int32_t pos_att_id = mesh->AddAttribute(pa, true, num_vertices);
 
+    //     GeometryAttribute na;
+    //     na.Init(GeometryAttribute::NORMAL, nullptr, 3, DT_FLOAT32, false, sizeof(float) * 3, 0);
+    //     int32_t norm_att_id = mesh->AddAttribute(na, true, num_vertices);
 
+    //     // Set attribute values.
+    //     for (int i = 0; i < num_vertices; ++i) {
+    //       mesh->attribute(pos_att_id)->SetAttributeValue(AttributeValueIndex(i), pts[i]);
+    //       mesh->attribute(norm_att_id)->SetAttributeValue(AttributeValueIndex(i), normals[i]);
+    //     }
+
+    //     // Add faces
+    //    for (int i = 0; i < num_faces; ++i) {
+    //      mesh->AddFace({{indices[i][0], indices[i][1], indices[i][2]});
+    //    }
 
     draco::EncoderBuffer meshBuffer;
     // draco::Mesh *meshToSave = nullptr;
     draco::Mesh *mesh = nullptr;
 
-    draco::StatusOr<std::unique_ptr<draco::Mesh>> maybe_mesh = draco::ReadMeshFromFile("/home/allan/draco_encode_cpp/custom0.obj", false);
-    if (!maybe_mesh.ok())
-    {
-        printf("Failed loading the input mesh: %s.\n", maybe_mesh.status().error_msg());
-        throw std::exception();
-    }
+    // draco::StatusOr<std::unique_ptr<draco::Mesh>> maybe_mesh = draco::ReadMeshFromFile("/home/allan/draco_encode_cpp/custom0.obj", false);
+    // if (!maybe_mesh.ok())
+    // {
+    //     printf("Failed loading the input mesh: %s.\n", maybe_mesh.status().error_msg());
+    //     throw std::exception();
+    // }
 
-    mesh = maybe_mesh.value().get();
+    // mesh = maybe_mesh.value().get();
+    std::cout << "about to set mesh" << std::endl;
+    mesh = open3dToDracoMesh;
     // pc = std::move(maybe_mesh).value();
     // pc = maybe_mesh.value().get();
 
     // Convert compression level to speed (that 0 = slowest, 10 = fastest).
-    const int speed = 10 - 1;
-    // const int speed = 1;
+    // const int speed = 10 - 1;
+    const int speed = 1;
 
     draco::Encoder encoder;
     // encoder.SetAttributeQuantization(draco::GeometryAttribute::GENERIC, 16);
-    encoder.SetAttributeQuantization(draco::GeometryAttribute::GENERIC, 0);
-    encoder.SetAttributeQuantization(draco::GeometryAttribute::POSITION, 0);
-    encoder.SetAttributeQuantization(draco::GeometryAttribute::NORMAL, 0);
+    encoder.SetAttributeQuantization(draco::GeometryAttribute::GENERIC, 10);
+    encoder.SetAttributeQuantization(draco::GeometryAttribute::POSITION, 10);
+    encoder.SetAttributeQuantization(draco::GeometryAttribute::NORMAL, 10);
     // encoder.SetTrackEncodedProperties(true);
     encoder.SetSpeedOptions(speed, speed);
     // encoder.SetEncodingMethod(1);
@@ -154,23 +217,25 @@ int main(int argc, char const *argv[])
 
     // if (input_is_mesh)
     // {
+    // std::cout << "about to encode" << std::endl;
     encoder.EncodeMeshToBuffer(*mesh, &meshBuffer);
     // }
     // else
     // {
     //     encoder.EncodePointCloudToBuffer(*pc, &meshBuffer);
     // }
-
+    // std::cout << "finished encoding " << std::endl;
     draco::DecoderBuffer decoderBuffer;
     decoderBuffer.Init(meshBuffer.data(), meshBuffer.size());
 
     draco::Decoder decoder;
-    // std::shared_ptr<draco::Mesh> meshToSave = decoder.DecodeMeshFromBuffer(&decoderBuffer).value();
+    std::cout << "about to decode" << std::endl;
     std::shared_ptr<draco::Mesh> meshToSave = decoder.DecodeMeshFromBuffer(&decoderBuffer).value();
+
     // draco::Mesh *meshToSave;
     // meshToSave = mesh;
     // std::shared_ptr<draco::Mesh> meshToSave;
-    // meshToSave.reset(mesh
+    // meshToSave = mesh;
 
     // char outPath[1024] = {0};
     // sprintf(outPath, "/home/allan/draco_encode_cpp/custom0_draco.obj");
@@ -249,12 +314,12 @@ int main(int argc, char const *argv[])
     // attribute 2 = normal - MESH_CORNER_ATTRIBUTE - don't think I need this
     // attribute 3 = generic - MESH_CORNER_ATTRIBUTE - has garbage data
     const draco::PointAttribute *attrP = meshToSave->GetAttributeByUniqueId(0);
-    const draco::PointAttribute *attrN = meshToSave->GetAttributeByUniqueId(1);
+    // const draco::PointAttribute *attrN = meshToSave->GetAttributeByUniqueId(1);
     for (unsigned long i = 0; (i < meshToSave->num_faces()); i++)
     {
         // grab draco faces
         // find the coordinate values by indexing all the vertices
-        draco::Mesh::Face face = meshToSave->face((draco::FaceIndex((unsigned int)i)));
+        draco::Mesh::Face face = meshToSave->face((draco::FaceIndex((uint32_t)i)));
 
         double vP0[3];
         double vP1[3];

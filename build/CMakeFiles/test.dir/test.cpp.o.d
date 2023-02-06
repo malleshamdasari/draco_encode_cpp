@@ -283,6 +283,7 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
  /home/allan/draco/src/draco/mesh/mesh.h \
  /home/allan/draco/src/draco/mesh/corner_table.h \
  /home/allan/draco/src/draco/attributes/point_attribute.h \
+ /home/allan/draco/src/draco/mesh/triangle_soup_mesh_builder.h \
  /usr/local/include/open3d/Open3D.h \
  /usr/local/include/open3d/Open3DConfig.h \
  /usr/local/include/open3d/camera/PinholeCameraIntrinsic.h \

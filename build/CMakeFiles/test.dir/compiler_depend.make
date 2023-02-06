@@ -641,6 +641,7 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
   /home/allan/draco/src/draco/mesh/mesh.h \
   /home/allan/draco/src/draco/mesh/corner_table.h \
   /home/allan/draco/src/draco/attributes/point_attribute.h \
+  /home/allan/draco/src/draco/mesh/triangle_soup_mesh_builder.h \
   /usr/local/include/open3d/Open3D.h \
   /usr/local/include/open3d/Open3DConfig.h \
   /usr/local/include/open3d/camera/PinholeCameraIntrinsic.h \
@@ -1821,6 +1822,10 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/local/include/open3d/3rdparty/Eigen/src/Core/MathFunctions.h:
 
+/usr/include/c++/11/mutex:
+
+/usr/local/include/open3d/3rdparty/Eigen/src/Core/products/TriangularSolverMatrix.h:
+
 /usr/local/include/open3d/visualization/visualizer/RenderOption.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
@@ -2124,6 +2129,8 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 /usr/local/include/open3d/core/nns/NanoFlannIndex.h:
 
 /usr/include/linux/stddef.h:
+
+/home/allan/draco/src/draco/mesh/triangle_soup_mesh_builder.h:
 
 /usr/include/strings.h:
 
@@ -2680,7 +2687,3 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 /usr/local/include/open3d/core/SizeVector.h:
 
 /usr/local/include/open3d/core/SmallVector.h:
-
-/usr/local/include/open3d/3rdparty/Eigen/src/Core/products/TriangularSolverMatrix.h:
-
-/usr/include/c++/11/mutex:
