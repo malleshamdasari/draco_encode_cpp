@@ -723,5 +723,4 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
  /usr/local/include/open3d/visualization/webrtc_server/WebRTCWindowSystem.h \
  /usr/local/include/open3d/visualization/gui/BitmapWindowSystem.h \
  /home/allan/eigen/Eigen/Core \
- /home/allan/draco_encode_cpp/plyEncoderCustom.h \
  /home/allan/draco/src/draco/io/ply_encoder.h
