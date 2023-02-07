@@ -88,6 +88,7 @@ CMakeFiles/test.dir/plyEncoderCustom.cpp.o: /home/allan/draco_encode_cpp/plyEnco
   /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
   /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
   /usr/include/c++/11/bits/shared_ptr_base.h \
   /usr/include/c++/11/typeinfo \
   /usr/include/c++/11/bits/allocated_ptr.h \
@@ -178,8 +179,11 @@ CMakeFiles/test.dir/plyEncoderCustom.cpp.o: /home/allan/draco_encode_cpp/plyEnco
   /usr/include/x86_64-linux-gnu/sys/select.h \
   /usr/include/x86_64-linux-gnu/bits/select.h \
   /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
+  /usr/include/x86_64-linux-gnu/bits/select2.h \
   /usr/include/alloca.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
   /usr/include/c++/11/bits/std_abs.h \
   /usr/include/c++/11/cstdio \
   /usr/include/stdio.h \
@@ -188,6 +192,8 @@ CMakeFiles/test.dir/plyEncoderCustom.cpp.o: /home/allan/draco_encode_cpp/plyEnco
   /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
   /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
   /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio2.h \
   /usr/include/c++/11/cerrno \
   /usr/include/errno.h \
   /usr/include/x86_64-linux-gnu/bits/errno.h \
@@ -245,6 +251,8 @@ CMakeFiles/test.dir/plyEncoderCustom.cpp.o: /home/allan/draco_encode_cpp/plyEnco
   /usr/include/c++/11/cstring \
   /usr/include/string.h \
   /usr/include/strings.h \
+  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
+  /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
   /usr/local/include/draco/core/draco_types.h \
   /usr/local/include/draco/attributes/geometry_attribute.h \
   /usr/include/c++/11/algorithm \
@@ -336,6 +344,7 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
   /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+  /usr/include/x86_64-linux-gnu/bits/select2.h \
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
   /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
@@ -356,6 +365,7 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
   /usr/include/x86_64-linux-gnu/asm/sockios.h \
   /usr/include/asm-generic/sockios.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h \
+  /usr/include/x86_64-linux-gnu/bits/socket2.h \
   /usr/include/x86_64-linux-gnu/bits/in.h \
   /usr/include/stdio.h \
   /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
@@ -370,16 +380,21 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
   /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
   /usr/include/x86_64-linux-gnu/bits/floatn.h \
   /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio2.h \
   /usr/include/string.h \
   /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
   /usr/include/strings.h \
+  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
+  /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
   /usr/include/unistd.h \
   /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
   /usr/include/x86_64-linux-gnu/bits/environments.h \
   /usr/include/x86_64-linux-gnu/bits/confname.h \
   /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
   /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd.h \
   /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
   /usr/include/linux/close_range.h \
   /usr/include/pthread.h \
@@ -456,6 +471,7 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
   /usr/include/x86_64-linux-gnu/bits/wchar.h \
   /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
   /usr/include/c++/11/exception \
   /usr/include/c++/11/bits/exception_ptr.h \
   /usr/include/c++/11/bits/cxxabi_init_exception.h \
@@ -491,7 +507,9 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
   /usr/include/x86_64-linux-gnu/bits/waitflags.h \
   /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
   /usr/include/alloca.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
   /usr/include/c++/11/bits/std_abs.h \
   /usr/include/c++/11/cstdio \
   /usr/include/c++/11/cerrno \
@@ -1186,8 +1204,6 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/local/include/open3d/visualization/gui/MenuBase.h:
 
-/usr/local/include/open3d/visualization/gui/Gui.h:
-
 /usr/local/include/open3d/visualization/gui/Font.h:
 
 /usr/local/include/open3d/utility/Timer.h:
@@ -1422,13 +1438,27 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/include/c++/11/ratio:
 
-/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
+/usr/local/include/open3d/core/MemoryManagerStatistic.h:
 
-/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
+/usr/include/c++/11/bits/this_thread_sleep.h:
 
-/usr/include/c++/11/string_view:
+/usr/local/include/open3d/core/FunctionTraits.h:
 
-/usr/include/string.h:
+/usr/local/include/open3d/core/TensorCheck.h:
+
+/usr/local/include/open3d/utility/Optional.h:
+
+/usr/local/include/open3d/core/SmallVector.h:
+
+/usr/local/include/open3d/core/SizeVector.h:
+
+/usr/local/include/open3d/visualization/shader/RGBDImageShader.h:
+
+/usr/local/include/open3d/3rdparty/Eigen/src/Householder/HouseholderSequence.h:
+
+/usr/local/include/open3d/core/ShapeUtil.h:
+
+/usr/local/include/open3d/core/Scalar.h:
 
 /usr/local/include/open3d/utility/ProgressReporters.h:
 
@@ -1494,10 +1524,6 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/include/c++/11/istream:
 
-/usr/include/c++/11/bits/locale_facets.tcc:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
-
 /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_inline.h:
 
 /usr/local/include/open3d/t/geometry/PointCloud.h:
@@ -1505,8 +1531,6 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 /usr/include/c++/11/bits/streambuf_iterator.h:
 
 /usr/local/include/open3d/3rdparty/Eigen/src/Core/CoreEvaluators.h:
-
-/usr/include/c++/11/cwctype:
 
 /usr/include/c++/11/bits/locale_facets.h:
 
@@ -1528,15 +1552,7 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/include/c++/11/stdexcept:
 
-/usr/include/x86_64-linux-gnu/bits/fp-fast.h:
-
-/usr/include/c++/11/bits/node_handle.h:
-
 /usr/include/c++/11/bits/basic_string.tcc:
-
-/usr/local/include/open3d/visualization/gui/Checkbox.h:
-
-/usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/error_t.h:
 
@@ -1556,15 +1572,29 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/local/include/open3d/3rdparty/Eigen/src/Core/Map.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
+
+/usr/include/string.h:
+
+/usr/include/c++/11/bits/locale_facets.tcc:
+
+/usr/include/x86_64-linux-gnu/bits/stdio.h:
+
 /usr/include/stdio.h:
 
 /usr/include/c++/11/cstdio:
 
+/usr/include/c++/11/cwctype:
+
+/usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
+
 /usr/include/alloca.h:
 
-/usr/include/c++/11/iostream:
+/usr/include/x86_64-linux-gnu/bits/select2.h:
 
-/usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
+/usr/include/c++/11/cwchar:
 
 /usr/include/c++/11/bits/locale_classes.tcc:
 
@@ -1576,9 +1606,17 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/include/stdlib.h:
 
+/usr/include/c++/11/string_view:
+
+/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
+
 /usr/include/c++/11/bits/ostream_insert.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
+
+/usr/include/c++/11/bits/stl_bvector.h:
+
+/usr/local/include/draco/attributes/point_attribute.h:
 
 /usr/include/c++/11/string:
 
@@ -1587,8 +1625,6 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 /usr/local/include/open3d/3rdparty/Eigen/src/Core/arch/Default/BFloat16.h:
 
 /usr/include/c++/11/bits/locale_classes.h:
-
-/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
 
 /usr/include/c++/11/bits/ios_base.h:
 
@@ -1654,14 +1690,6 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/include/c++/11/bits/vector.tcc:
 
-/usr/local/include/draco/attributes/point_attribute.h:
-
-/usr/include/c++/11/bits/stl_bvector.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
-
 /usr/local/include/open3d/pipelines/registration/GlobalOptimizationMethod.h:
 
 /home/allan/draco/src/draco/core/cycle_timer.h:
@@ -1675,6 +1703,8 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 /usr/include/c++/11/bits/shared_ptr_atomic.h:
 
 /usr/include/c++/11/bits/nested_exception.h:
+
+/usr/include/c++/11/exception:
 
 /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
 
@@ -1691,8 +1721,6 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 /usr/include/c++/11/backward/auto_ptr.h:
 
 /usr/local/include/open3d/3rdparty/Eigen/src/Core/TriangularMatrix.h:
-
-/usr/local/include/open3d/utility/Optional.h:
 
 /usr/include/c++/11/bits/stl_uninitialized.h:
 
@@ -1780,6 +1808,8 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/include/c++/11/memory:
 
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:
+
 /usr/include/x86_64-linux-gnu/sys/select.h:
 
 /usr/include/x86_64-linux-gnu/bits/wchar.h:
@@ -1862,10 +1892,6 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /home/allan/draco/src/draco/attributes/point_attribute.h:
 
-/usr/include/x86_64-linux-gnu/bits/getopt_core.h:
-
-/usr/include/c++/11/bits/functexcept.h:
-
 /usr/local/include/open3d/visualization/visualizer/VisualizerWithEditing.h:
 
 /usr/include/c++/11/bits/list.tcc:
@@ -1885,6 +1911,12 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 /usr/local/include/open3d/3rdparty/Eigen/src/Core/VectorBlock.h:
 
 /usr/include/x86_64-linux-gnu/asm/errno.h:
+
+/usr/include/x86_64-linux-gnu/bits/getopt_core.h:
+
+/usr/include/c++/11/bits/functexcept.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib.h:
 
 /usr/local/include/open3d/3rdparty/Eigen/src/plugins/MatrixCwiseBinaryOps.h:
 
@@ -1915,10 +1947,6 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 /usr/local/include/open3d/3rdparty/Eigen/src/LU/InverseImpl.h:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h:
-
-/usr/include/x86_64-linux-gnu/bits/math-vector.h:
-
-/usr/include/c++/11/complex:
 
 /usr/include/c++/11/bits/stl_raw_storage_iter.h:
 
@@ -1954,8 +1982,6 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
 
-/usr/local/include/open3d/core/MemoryManagerStatistic.h:
-
 /usr/include/x86_64-linux-gnu/bits/types.h:
 
 /usr/local/include/open3d/3rdparty/Eigen/src/Core/arch/SSE/MathFunctions.h:
@@ -1979,8 +2005,6 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 /usr/include/c++/11/cstdlib:
 
 /usr/include/c++/11/bits/stl_iterator_base_types.h:
-
-/usr/local/include/open3d/core/TensorCheck.h:
 
 /usr/include/c++/11/bit:
 
@@ -2034,9 +2058,23 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/time.h:
 
+/usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
+
+/usr/include/c++/11/iostream:
+
+/usr/include/c++/11/bits/node_handle.h:
+
+/usr/include/x86_64-linux-gnu/bits/fp-fast.h:
+
 /usr/local/include/draco/point_cloud/point_cloud.h:
 
 /usr/include/c++/11/backward/binders.h:
+
+/usr/local/include/open3d/visualization/gui/Gui.h:
+
+/usr/include/x86_64-linux-gnu/bits/wchar2.h:
+
+/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
 
 /usr/local/include/open3d/core/TensorInit.h:
 
@@ -2050,11 +2088,19 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/include/c++/11/bits/postypes.h:
 
+/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h:
+
 /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
 
 /usr/local/include/draco/attributes/geometry_attribute.h:
 
 /usr/include/x86_64-linux-gnu/bits/in.h:
+
+/usr/local/include/open3d/core/TensorKey.h:
+
+/usr/include/x86_64-linux-gnu/sys/types.h:
+
+/usr/include/asm-generic/socket.h:
 
 /usr/local/include/open3d/3rdparty/Eigen/src/Core/NestByValue.h:
 
@@ -2065,8 +2111,6 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 /usr/local/include/draco/core/draco_index_type_vector.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h:
-
-/usr/include/c++/11/cwchar:
 
 /usr/include/c++/11/bits/cxxabi_init_exception.h:
 
@@ -2088,11 +2132,9 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
 
+/usr/include/x86_64-linux-gnu/bits/strings_fortified.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
-
-/usr/include/c++/11/bits/this_thread_sleep.h:
-
-/usr/local/include/open3d/core/FunctionTraits.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/time_t.h:
 
@@ -2158,10 +2200,6 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
 
-/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
-
-/usr/include/x86_64-linux-gnu/bits/endian.h:
-
 /usr/include/x86_64-linux-gnu/bits/endianness.h:
 
 /usr/include/c++/11/bits/unordered_map.h:
@@ -2222,7 +2260,19 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/local/include/open3d/3rdparty/Eigen/src/Core/ProductEvaluators.h:
 
-/usr/include/c++/11/exception:
+/usr/include/c++/11/complex:
+
+/usr/include/x86_64-linux-gnu/bits/math-vector.h:
+
+/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
+
+/usr/local/include/open3d/visualization/gui/Checkbox.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
+
+/usr/include/x86_64-linux-gnu/bits/endian.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
 
 /usr/include/c++/11/ext/string_conversions.h:
 
@@ -2362,6 +2412,8 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/include/c++/11/bits/fstream.tcc:
 
+/usr/include/x86_64-linux-gnu/bits/socket2.h:
+
 /usr/local/include/draco/attributes/geometry_indices.h:
 
 /usr/include/x86_64-linux-gnu/bits/posix_opt.h:
@@ -2484,6 +2536,8 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/local/include/open3d/visualization/gui/TreeView.h:
 
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:
+
 /usr/local/include/open3d/3rdparty/Eigen/src/Core/arch/Default/TypeCasting.h:
 
 /usr/local/include/open3d/3rdparty/Eigen/src/Core/arch/SSE/TypeCasting.h:
@@ -2527,12 +2581,6 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 /usr/local/include/open3d/3rdparty/Eigen/src/Core/AssignEvaluator.h:
 
 /usr/local/include/open3d/3rdparty/Eigen/src/Core/Assign.h:
-
-/usr/include/x86_64-linux-gnu/sys/types.h:
-
-/usr/include/asm-generic/socket.h:
-
-/usr/local/include/open3d/core/TensorKey.h:
 
 /usr/local/include/open3d/3rdparty/Eigen/src/Core/ArrayBase.h:
 
@@ -2622,6 +2670,8 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 
 /usr/local/include/open3d/3rdparty/Eigen/src/Core/PartialReduxEvaluator.h:
 
+/usr/include/x86_64-linux-gnu/bits/unistd.h:
+
 /usr/local/include/open3d/3rdparty/Eigen/src/Core/Reverse.h:
 
 /usr/local/include/open3d/3rdparty/Eigen/src/Core/util/BlasUtil.h:
@@ -2675,15 +2725,3 @@ CMakeFiles/test.dir/test.cpp.o: /home/allan/draco_encode_cpp/test.cpp \
 /usr/include/c++/11/bits/locale_conv.h:
 
 /usr/local/include/open3d/core/EigenConverter.h:
-
-/usr/local/include/open3d/core/Scalar.h:
-
-/usr/local/include/open3d/visualization/shader/RGBDImageShader.h:
-
-/usr/local/include/open3d/3rdparty/Eigen/src/Householder/HouseholderSequence.h:
-
-/usr/local/include/open3d/core/ShapeUtil.h:
-
-/usr/local/include/open3d/core/SizeVector.h:
-
-/usr/local/include/open3d/core/SmallVector.h:

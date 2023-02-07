@@ -6,5 +6,5 @@ CXX_DEFINES = -DFMT_HEADER_ONLY=0 -DFMT_STRING_ALIAS=1 -DFMT_USE_WINDOWS_H=0 -DO
 
 CXX_INCLUDES = -I/home/allan/draco_encode_cpp -isystem /usr/local/include/open3d/3rdparty
 
-CXX_FLAGS = -ggdb -O0 -Wunreachable-code -g -Wextra -Wall -Wfloat-equal -Wconversion -Wparentheses -pedantic -Wunused-parameter -Wunused-variable -Wreturn-type -Wunused-function -Wredundant-decls -Wunused-value -Wswitch-default -Wuninitialized -Winit-self
+CXX_FLAGS =   -O9
 

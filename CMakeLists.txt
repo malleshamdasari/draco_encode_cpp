@@ -45,28 +45,28 @@ target_link_libraries(test -Wl,--whole-archive draco -Wl,--no-whole-archive Open
 
 
 
-#add_definitions(-Wall -Wextra -ggdb -O0 -Wunreachable-code -g )
+add_definitions(-O9)
 
-target_compile_options(test PUBLIC
+#target_compile_options(test PUBLIC
   #"-Werror" # Do not comment this out after Project 8!
-  "-ggdb"
-  "-O0"
-  "-Wunreachable-code"
-  "-g"
-  "-Wextra"
-  "-Wall"
-  "-Wfloat-equal"
-  "-Wconversion"
-  "-Wparentheses"
-  "-pedantic"
-  "-Wunused-parameter"
-  "-Wunused-variable"
-  "-Wreturn-type"
-  "-Wunused-function"
-  "-Wredundant-decls"
-  "-Wreturn-type"
-  "-Wredundant-decls"
-  "-Wunused-value"
-  "-Wswitch-default"
-  "-Wuninitialized" "-Winit-self"
-  )
+  #"-ggdb"
+  #"-O0"
+  #"-Wunreachable-code"
+  #"-g"
+  #"-Wextra"
+  #"-Wall"
+  #"-Wfloat-equal"
+  #"-Wconversion"
+  #"-Wparentheses"
+  #"-pedantic"
+  #"-Wunused-parameter"
+  #"-Wunused-variable"
+  #"-Wreturn-type"
+  #"-Wunused-function"
+  #"-Wredundant-decls"
+  #"-Wreturn-type"
+  #"-Wredundant-decls"
+  #"-Wunused-value"
+  #"-Wswitch-default"
+  #"-Wuninitialized" "-Winit-self"
+  #)
