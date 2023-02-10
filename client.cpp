@@ -80,7 +80,7 @@ static void *recieve(void *data)
 
 	
 	struct hostent *hp;
-	hp = gethostbyname("192.168.1.79");
+	hp = gethostbyname("192.168.1.23");
 	std::cout << hp->h_addr << std::endl;
 	address.sin_family = hp->h_addrtype;
 	bcopy((char *)hp->h_addr, (char *)&address.sin_addr, hp->h_length);
@@ -98,7 +98,7 @@ static void *recieve(void *data)
 
 	// Convert IPv4 and IPv6 addresses from text to binary
 	// form
-	if (inet_pton(AF_INET, "192.168.1.79", &address.sin_addr) <= 0)
+	if (inet_pton(AF_INET, "192.168.1.23", &address.sin_addr) <= 0)
 	{
 		printf("\nInvalid address/ Address not supported \n");
 		return NULL;
@@ -145,7 +145,7 @@ static void *recieve(void *data)
 	draco::ObjEncoder objEncoder;
 	char outPath[1024] = {0};
 	// sprintf(outPath, "/home/allan/draco_encode_cpp/client/test_thread%d.ply", args->id);
-	sprintf(outPath, "/home/sc/draco_encode_cpp/example2_.obj");
+	sprintf(outPath, "/home/sc/draco_encode_cpp/example2_SUCCESSFUL_TRANSFER.obj");
 	bool success = objEncoder.EncodeToFile(*(meshToSave.get()), outPath);
 	// Without lock: Bad file descriptor (corrupts the .ply file)
 	

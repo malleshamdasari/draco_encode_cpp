@@ -86,7 +86,7 @@ static void *transfer(void *data)
 
 	// address.sin_family = AF_INET;
 	struct hostent *hp;
-	hp = gethostbyname("192.168.1.79");
+	hp = gethostbyname("192.168.1.23");
 	address.sin_family = hp->h_addrtype;
 	bcopy((char *)hp->h_addr, (char *)&address.sin_addr, hp->h_length);
 	// address.sin_addr.s_addr = INADDR_ANY;
