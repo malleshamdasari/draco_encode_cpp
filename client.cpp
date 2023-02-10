@@ -8,13 +8,13 @@
 #include <pthread.h>
 #include <unordered_map>
 
-#include "/home/allan/draco/src/draco/compression/encode.h"
-#include "/home/allan/draco/src/draco/core/cycle_timer.h"
-#include "/home/allan/draco/src/draco/io/file_utils.h"
-#include "/home/allan/draco/src/draco/io/mesh_io.h"
-#include "/home/allan/draco/src/draco/io/ply_encoder.h"
-#include "/home/allan/draco/src/draco/io/point_cloud_io.h"
-#include "/home/allan/draco/src/draco/mesh/mesh.h"
+#include "../draco/src/draco/compression/encode.h"
+#include "../draco/src/draco/core/cycle_timer.h"
+#include "../draco/src/draco/io/file_utils.h"
+#include "../draco/src/draco/io/mesh_io.h"
+#include "../draco/src/draco/io/obj_encoder.h"
+#include "../draco/src/draco/io/point_cloud_io.h"
+#include "../draco/src/draco/mesh/mesh.h"
 
 #include "open3d/Open3D.h"
 
@@ -131,11 +131,11 @@ static void *recieve(void *data)
 	draco::Decoder decoder;
 	std::unique_ptr<draco::Mesh> meshToSave = decoder.DecodeMeshFromBuffer(&decoderBuffer).value();
 	
-	draco::PlyEncoder plyEncoder;
+	draco::ObjEncoder objEncoder;
 	char outPath[1024] = {0};
 	// sprintf(outPath, "/home/allan/draco_encode_cpp/client/test_thread%d.ply", args->id);
-	sprintf(outPath, "/home/allan/draco_encode_cpp/bunny_.ply");
-	bool success = plyEncoder.EncodeToFile(*(meshToSave.get()), outPath);
+	sprintf(outPath, "/home/sc/draco_encode_cpp/example2_.obj");
+	bool success = objEncoder.EncodeToFile(*(meshToSave.get()), outPath);
 	// Without lock: Bad file descriptor (corrupts the .ply file)
 	
 	// pthread_mutex_lock(&fileMutex);

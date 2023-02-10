@@ -10,18 +10,19 @@
 #include <numeric>
 #include <vector>
 
-#include "/home/allan/Open3D-0.16.0/build/tinygltf/src/ext_tinygltf/tiny_gltf.h"
+// #include "/home/allan/Open3D-0.16.0/build/tinygltf/src/ext_tinygltf/tiny_gltf.h"
 
-#include "/home/allan/draco/src/draco/io/obj_encoder.h"
-#include "/home/allan/draco/src/draco/compression/encode.h"
-#include "/home/allan/draco/src/draco/core/cycle_timer.h"
-#include "/home/allan/draco/src/draco/io/file_utils.h"
-#include "/home/allan/draco/src/draco/io/mesh_io.h"
-#include "/home/allan/draco/src/draco/io/point_cloud_io.h"
-#include "/home/allan/draco/src/draco/mesh/mesh.h"
-#include "/home/allan/draco/src/draco/mesh/corner_table.h"
-#include "/home/allan/draco/src/draco/attributes/point_attribute.h"
-#include "/home/allan/draco/src/draco/mesh/triangle_soup_mesh_builder.h"
+#include "../draco/src/draco/io/obj_encoder.h"
+#include "../draco/src/draco/compression/encode.h"
+#include "../draco/src/draco/core/cycle_timer.h"
+#include "../draco/src/draco/io/file_utils.h"
+#include "../draco/src/draco/io/mesh_io.h"
+#include "../draco/src/draco/io/point_cloud_io.h"
+#include "../draco/src/draco/mesh/mesh.h"
+#include "../draco/src/draco/mesh/corner_table.h"
+#include "../draco/src/draco/attributes/point_attribute.h"
+#include "../draco/src/draco/mesh/triangle_soup_mesh_builder.h"
+#include "../draco/src/draco/io/ply_encoder.h"
 
 #include "open3d/Open3D.h"
 #include "open3d/io/FileFormatIO.h"
@@ -29,9 +30,9 @@
 #include "open3d/utility/Logging.h"
 #include "open3d/geometry/TriangleMesh.h"
 
-#include "/home/allan/eigen/Eigen/Core"
+#include "Eigen/Core"
 
-#include "/home/allan/draco/src/draco/io/ply_encoder.h"
+
 
 using namespace std;
 

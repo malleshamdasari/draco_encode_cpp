@@ -1,7 +1,9 @@
+set(CMAKE_INSTALL_PREFIX /home/sc/open3d_install_0.16.0)
 cmake_minimum_required(VERSION 3.20)
 
 project(test)
 find_package(draco REQUIRED)
+find_package(Open3D 0.16.0 REQUIRED)
 
 project(TestVisualizer LANGUAGES C CXX)
 
