@@ -291,6 +291,7 @@ CMakeFiles/test.dir/test.cpp.o: /home/sc/draco_encode_cpp/test.cpp \
  /home/sc/draco_encode_cpp/../draco/src/draco/attributes/point_attribute.h \
  /home/sc/draco_encode_cpp/../draco/src/draco/mesh/triangle_soup_mesh_builder.h \
  /home/sc/draco_encode_cpp/../draco/src/draco/io/ply_encoder.h \
+ /home/sc/draco_encode_cpp/./utils.h \
  /home/sc/open3d_install_0.16.0/include/open3d/Open3D.h \
  /home/sc/open3d_install_0.16.0/include/open3d/Open3DConfig.h \
  /home/sc/open3d_install_0.16.0/include/open3d/camera/PinholeCameraIntrinsic.h \

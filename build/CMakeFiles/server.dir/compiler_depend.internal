@@ -347,6 +347,7 @@ CMakeFiles/server.dir/server.cpp.o
  /home/sc/draco/src/draco/io/obj_encoder.h
  /usr/local/include/draco/mesh/corner_table.h
  /usr/local/include/draco/mesh/valence_cache.h
+ /home/sc/draco_encode_cpp/utils.h
  /home/sc/open3d_install_0.16.0/include/open3d/Open3D.h
  /home/sc/open3d_install_0.16.0/include/open3d/Open3DConfig.h
  /home/sc/open3d_install_0.16.0/include/open3d/camera/PinholeCameraIntrinsic.h

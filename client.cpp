@@ -16,8 +16,9 @@
 #include "../draco/src/draco/io/obj_encoder.h"
 #include "../draco/src/draco/io/point_cloud_io.h"
 #include "../draco/src/draco/mesh/mesh.h"
-
+#include "./utils.h"
 #include "open3d/Open3D.h"
+
 
 
 // #include "open3d/io/FileFormatIO.h"

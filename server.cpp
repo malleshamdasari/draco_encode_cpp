@@ -15,7 +15,9 @@
 #include "../draco/src/draco/io/mesh_io.h"
 #include "../draco/src/draco/io/point_cloud_io.h"
 #include "../draco/src/draco/io/obj_encoder.h"
+#include "./utils.h"
 #include "open3d/Open3D.h"
+
 
 using namespace std;
 const char *get_error_text()
