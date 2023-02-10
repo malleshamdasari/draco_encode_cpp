@@ -1,6 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/test.dir/plyEncoderCustom.cpp.o"
-  "CMakeFiles/test.dir/plyEncoderCustom.cpp.o.d"
   "CMakeFiles/test.dir/test.cpp.o"
   "CMakeFiles/test.dir/test.cpp.o.d"
   "test"

@@ -6,5 +6,5 @@ CXX_DEFINES = -DFMT_HEADER_ONLY=0 -DFMT_STRING_ALIAS=1 -DFMT_USE_WINDOWS_H=0 -DO
 
 CXX_INCLUDES = -I/home/allan/draco_encode_cpp -isystem /usr/local/include/open3d/3rdparty
 
-CXX_FLAGS =   -O9
+CXX_FLAGS =   -O3
 

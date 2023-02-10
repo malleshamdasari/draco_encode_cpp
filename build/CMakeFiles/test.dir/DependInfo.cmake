@@ -8,7 +8,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/allan/draco_encode_cpp/plyEncoderCustom.cpp" "CMakeFiles/test.dir/plyEncoderCustom.cpp.o" "gcc" "CMakeFiles/test.dir/plyEncoderCustom.cpp.o.d"
   "/home/allan/draco_encode_cpp/test.cpp" "CMakeFiles/test.dir/test.cpp.o" "gcc" "CMakeFiles/test.dir/test.cpp.o.d"
   )
 

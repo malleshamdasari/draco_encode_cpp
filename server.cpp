@@ -13,7 +13,7 @@
 #include "/home/allan/draco/src/draco/io/file_utils.h"
 #include "/home/allan/draco/src/draco/io/mesh_io.h"
 #include "/home/allan/draco/src/draco/io/point_cloud_io.h"
-// #include "open3d/Open3D.h"
+#include "open3d/Open3D.h"
 
 using namespace std;
 const char *get_error_text()
@@ -98,7 +98,7 @@ static void *transfer(void *data)
 	std::unique_ptr<draco::PointCloud> pc;
 	draco::Mesh *mesh = nullptr;
 
-	auto maybe_mesh = draco::ReadMeshFromFile("/home/allan/draco_encode_cpp/bun_zipper.ply", false);
+	auto maybe_mesh = draco::ReadMeshFromFile("/home/allan/draco_encode_cpp/bunny.ply", false);
 	if (!maybe_mesh.ok())
 	{
 		printf("Failed loading the input mesh: %s.\n", maybe_mesh.status().error_msg());
