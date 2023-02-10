@@ -44,12 +44,139 @@ const char *get_error_text()
 #define MAX 4096
 #define PORT 8080
 #define NUM_THREADS 1
+bool enableDebugging = 0;
 
 typedef struct
 {
 	int port;
 	int id;
 } args_t;
+
+
+int open3d_to_draco(open3d::geometry::TriangleMesh *inOpen3d, draco::EncoderBuffer *meshBuffer){
+
+    draco::Mesh *open3dToDracoMesh = new draco::Mesh();
+    open3dToDracoMesh->set_num_points((uint32_t)inOpen3d->vertices_.size());
+    open3dToDracoMesh->SetNumFaces(inOpen3d->triangles_.size());
+    draco::PointAttribute open3dToDracoPositionAttribute;
+    draco::PointAttribute open3dToDracoNormalAttribute;
+
+    // type based off enum in geometry_attribute.h
+    open3dToDracoPositionAttribute.Init(draco::PointAttribute::Type(0), 3, draco::DataType::DT_FLOAT64, true, inOpen3d->vertices_.size());
+    open3dToDracoNormalAttribute.Init(draco::PointAttribute::Type(1), 3, draco::DataType::DT_FLOAT64, true, inOpen3d->vertex_normals_.size());
+
+    // add these attributes to the mesh
+    int32_t open3dToDracoPositionAttributeID = open3dToDracoMesh->AddAttribute(open3dToDracoPositionAttribute, true, (uint32_t)inOpen3d->vertices_.size());
+    int32_t open3dToDracoNormalAttributeID = open3dToDracoMesh->AddAttribute(open3dToDracoNormalAttribute, true, (uint32_t)inOpen3d->vertex_normals_.size());
+
+    // initialize attribute vertex values from open3d
+    unsigned int inOpen3dAttributeIdx = 0;
+    for (auto itr = inOpen3d->vertices_.begin(); itr != inOpen3d->vertices_.end(); itr++)
+    {
+        if (enableDebugging)
+        {
+            std::cout << (*itr)[0] << ", " << (*itr)[1] << ", " << (*itr)[2] << "\n";
+        }
+        double inOpen3dVertex[3];
+        inOpen3dVertex[0] = (*itr)[0];
+        inOpen3dVertex[1] = (*itr)[1];
+        inOpen3dVertex[2] = (*itr)[2];
+        open3dToDracoMesh->attribute(open3dToDracoPositionAttributeID)->SetAttributeValue(draco::AttributeValueIndex(inOpen3dAttributeIdx), &inOpen3dVertex[0]);
+        inOpen3dAttributeIdx++;
+    }
+
+    inOpen3dAttributeIdx = 0;
+    for (auto itr = inOpen3d->vertex_normals_.begin(); itr != inOpen3d->vertex_normals_.end(); itr++)
+    {
+        if (enableDebugging)
+        {
+            std::cout << (*itr)[0] << ", " << (*itr)[1] << ", " << (*itr)[2] << "\n";
+        }
+        double inOpen3dVertex[3];
+        inOpen3dVertex[0] = (*itr)[0];
+        inOpen3dVertex[1] = (*itr)[1];
+        inOpen3dVertex[2] = (*itr)[2];
+        open3dToDracoMesh->attribute(open3dToDracoNormalAttributeID)->SetAttributeValue(draco::AttributeValueIndex(inOpen3dAttributeIdx), &inOpen3dVertex[0]);
+        inOpen3dAttributeIdx++;
+    }
+
+    // faces look to be successfully added to the open3dtodracomesh -> failure must be somewhere else TODO
+    for (unsigned long i = 0; i < inOpen3d->triangles_.size(); ++i)
+    {
+        // adding faces broken
+        // const draco::Mesh::Face tmpFace({draco::PointIndex((uint32_t)inOpen3d->triangles_[i][0]),draco::PointIndex((uint32_t)inOpen3d->triangles_[i][1]),draco::PointIndex((uint32_t)inOpen3d->triangles_[i][2])});
+        draco::Mesh::Face tmpFace = draco::Mesh::Face();
+        tmpFace[0] = draco::PointIndex((uint32_t)inOpen3d->triangles_[i][0]);
+        tmpFace[1] = draco::PointIndex((uint32_t)inOpen3d->triangles_[i][1]);
+        tmpFace[2] = draco::PointIndex((uint32_t)inOpen3d->triangles_[i][2]);
+
+        // face already initialized when face size is set
+        open3dToDracoMesh->SetFace(draco::FaceIndex((uint32_t)i), tmpFace);
+    }
+
+    // draco::EncoderBuffer meshBuffer;
+    // draco::Mesh *meshToSave = nullptr;
+    draco::Mesh *mesh = nullptr;
+
+    // draco::StatusOr<std::unique_ptr<draco::Mesh>> maybe_mesh = draco::ReadMeshFromFile("/home/allan/draco_encode_cpp/custom0.obj", false);
+    // if (!maybe_mesh.ok())
+    // {
+    //     printf("Failed loading the input mesh: %s.\n", maybe_mesh.status().error_msg());
+    //     throw std::exception();
+    // }
+
+    // mesh = maybe_mesh.value().get();
+    mesh = open3dToDracoMesh;
+    // pc = std::move(maybe_mesh).value();
+    // pc = maybe_mesh.value().get();
+
+    // Convert compression level to speed (that 0 = slowest, 10 = fastest).
+    const int speed = 10 - 1;
+    // const int speed = 1;
+
+    draco::Encoder encoder;
+    encoder.SetAttributeQuantization(draco::GeometryAttribute::GENERIC, 10);
+    encoder.SetAttributeQuantization(draco::GeometryAttribute::POSITION, 10);
+    encoder.SetAttributeQuantization(draco::GeometryAttribute::NORMAL, 10);
+    encoder.SetSpeedOptions(speed, speed);
+
+    // const bool input_is_mesh = mesh && mesh->num_faces() > 0;
+
+    // Convert to ExpertEncoder that allows us to set per-attribute options.
+    std::unique_ptr<draco::ExpertEncoder> expert_encoder;
+    // if (input_is_mesh)
+    // {
+    expert_encoder.reset(new draco::ExpertEncoder(*mesh));
+    // }
+    // else
+    // {
+    //     expert_encoder.reset(new draco::ExpertEncoder(*pc));
+    // }
+    // expert_encoder->Reset(encoder.CreateExpertEncoderOptions(*pc));
+
+    // if (input_is_mesh)
+    // {
+    // std::cout << "about to encode" << std::endl;
+    
+    
+    // encoder.EncodeMeshToBuffer(*mesh, &meshBuffer);
+    encoder.EncodeMeshToBuffer(*mesh, meshBuffer);
+
+
+    // }
+    // else
+    // {
+    //     encoder.EncodePointCloudToBuffer(*pc, &meshBuffer);
+    // }
+    // std::cout << "finished encoding " << std::endl;
+    // draco::DecoderBuffer decoderBuffer;
+    // decoderBuffer.Init(meshBuffer.data(), meshBuffer.size());
+
+    // draco::Decoder decoder;
+
+    return 0;
+}
+
 
 static void *transfer(void *data)
 {
@@ -111,52 +238,61 @@ static void *transfer(void *data)
 		exit(EXIT_FAILURE);
 	}
 
+	// draco::EncoderBuffer meshBuffer;
+
+	// std::unique_ptr<draco::PointCloud> pc;
+	// draco::Mesh *mesh = nullptr;
+
+	// auto maybe_mesh = draco::ReadMeshFromFile("/home/sc/draco_encode_cpp/example2.obj", false);
+	// if (!maybe_mesh.ok())
+	// {
+	// 	printf("Failed loading the input mesh: %s.\n", maybe_mesh.status().error_msg());
+	// 	throw std::exception();
+	// }
+
+	// mesh = maybe_mesh.value().get();
+	// pc = std::move(maybe_mesh).value();
+
+	// // Convert compression level to speed (that 0 = slowest, 10 = fastest).
+	// const int speed = 10 - 1;
+
+	// draco::Encoder encoder;
+	// encoder.SetAttributeQuantization(draco::GeometryAttribute::GENERIC, 16);
+	// encoder.SetSpeedOptions(speed, speed);
+
+	// const bool input_is_mesh = mesh && mesh->num_faces() > 0;
+
+	// // Convert to ExpertEncoder that allows us to set per-attribute options.
+	// std::unique_ptr<draco::ExpertEncoder> expert_encoder;
+	// if (input_is_mesh)
+	// {
+	// 	expert_encoder.reset(new draco::ExpertEncoder(*mesh));
+	// }
+	// else
+	// {
+	// 	expert_encoder.reset(new draco::ExpertEncoder(*pc));
+	// }
+	// expert_encoder->Reset(encoder.CreateExpertEncoderOptions(*pc));
+
+	// int ret = -1;
+
+	// if (input_is_mesh)
+	// {
+	// 	encoder.EncodeMeshToBuffer(*mesh, &meshBuffer);
+	// }
+	// else
+	// {
+	// 	encoder.EncodePointCloudToBuffer(*pc, &meshBuffer);
+	// }
+
+	auto inOpen3d = std::make_shared<open3d::geometry::TriangleMesh>();
+    open3d::io::ReadTriangleMeshOptions inOpt;
+    // open3d::io::ReadTriangleMeshFromOBJ("/home/allan/draco_encode_cpp/custom0.obj", *inOpen3d, inOpt);
+    open3d::io::ReadTriangleMeshFromOBJ("/home/sc/draco_encode_cpp/example2.obj", *inOpen3d, inOpt);
+
 	draco::EncoderBuffer meshBuffer;
 
-	std::unique_ptr<draco::PointCloud> pc;
-	draco::Mesh *mesh = nullptr;
-
-	auto maybe_mesh = draco::ReadMeshFromFile("/home/sc/draco_encode_cpp/example2.obj", false);
-	if (!maybe_mesh.ok())
-	{
-		printf("Failed loading the input mesh: %s.\n", maybe_mesh.status().error_msg());
-		throw std::exception();
-	}
-
-	mesh = maybe_mesh.value().get();
-	pc = std::move(maybe_mesh).value();
-
-	// Convert compression level to speed (that 0 = slowest, 10 = fastest).
-	const int speed = 10 - 1;
-
-	draco::Encoder encoder;
-	encoder.SetAttributeQuantization(draco::GeometryAttribute::GENERIC, 16);
-	encoder.SetSpeedOptions(speed, speed);
-
-	const bool input_is_mesh = mesh && mesh->num_faces() > 0;
-
-	// Convert to ExpertEncoder that allows us to set per-attribute options.
-	std::unique_ptr<draco::ExpertEncoder> expert_encoder;
-	if (input_is_mesh)
-	{
-		expert_encoder.reset(new draco::ExpertEncoder(*mesh));
-	}
-	else
-	{
-		expert_encoder.reset(new draco::ExpertEncoder(*pc));
-	}
-	expert_encoder->Reset(encoder.CreateExpertEncoderOptions(*pc));
-
-	int ret = -1;
-
-	if (input_is_mesh)
-	{
-		encoder.EncodeMeshToBuffer(*mesh, &meshBuffer);
-	}
-	else
-	{
-		encoder.EncodePointCloudToBuffer(*pc, &meshBuffer);
-	}
+    open3d_to_draco(inOpen3d.get(), &meshBuffer);
 
 	printf("(%d) mesh buffer size: %ld\n", args->id, meshBuffer.size());
 	sprintf(buffer, "%ld", meshBuffer.size());
