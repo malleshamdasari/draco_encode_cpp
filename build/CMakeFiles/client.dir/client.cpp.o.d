@@ -133,7 +133,11 @@ CMakeFiles/client.dir/client.cpp.o: /home/sc/draco_encode_cpp/client.cpp \
  /usr/include/c++/11/bits/enable_special_members.h \
  /usr/include/c++/11/bits/node_handle.h \
  /usr/include/c++/11/bits/unordered_map.h \
- /usr/include/c++/11/bits/erase_if.h \
+ /usr/include/c++/11/bits/erase_if.h /usr/include/netdb.h \
+ /usr/include/rpc/netdb.h \
+ /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h \
+ /usr/include/x86_64-linux-gnu/bits/netdb.h \
  /home/sc/draco_encode_cpp/../draco/src/draco/compression/encode.h \
  /usr/local/include/draco/compression/config/compression_shared.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \

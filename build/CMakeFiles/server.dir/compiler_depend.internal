@@ -118,6 +118,11 @@ CMakeFiles/server.dir/server.cpp.o
  /usr/include/x86_64-linux-gnu/bits/setjmp.h
  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h
  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h
+ /usr/include/netdb.h
+ /usr/include/rpc/netdb.h
+ /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h
+ /usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h
+ /usr/include/x86_64-linux-gnu/bits/netdb.h
  /home/sc/draco/src/draco/compression/encode.h
  /usr/local/include/draco/compression/config/compression_shared.h
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h
@@ -339,6 +344,9 @@ CMakeFiles/server.dir/server.cpp.o
  /usr/local/include/draco/core/status_or.h
  /usr/local/include/draco/compression/expert_encode.h
  /home/sc/draco/src/draco/io/point_cloud_io.h
+ /home/sc/draco/src/draco/io/obj_encoder.h
+ /usr/local/include/draco/mesh/corner_table.h
+ /usr/local/include/draco/mesh/valence_cache.h
  /home/sc/open3d_install_0.16.0/include/open3d/Open3D.h
  /home/sc/open3d_install_0.16.0/include/open3d/Open3DConfig.h
  /home/sc/open3d_install_0.16.0/include/open3d/camera/PinholeCameraIntrinsic.h

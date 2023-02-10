@@ -155,6 +155,11 @@ CMakeFiles/client.dir/client.cpp.o
  /usr/include/c++/11/bits/node_handle.h
  /usr/include/c++/11/bits/unordered_map.h
  /usr/include/c++/11/bits/erase_if.h
+ /usr/include/netdb.h
+ /usr/include/rpc/netdb.h
+ /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h
+ /usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h
+ /usr/include/x86_64-linux-gnu/bits/netdb.h
  /home/sc/draco/src/draco/compression/encode.h
  /usr/local/include/draco/compression/config/compression_shared.h
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h
@@ -338,7 +343,9 @@ CMakeFiles/client.dir/client.cpp.o
  /usr/local/include/draco/core/decoder_buffer.h
  /usr/local/include/draco/core/status_or.h
  /usr/local/include/draco/compression/expert_encode.h
- /home/sc/draco/src/draco/io/ply_encoder.h
+ /home/sc/draco/src/draco/io/obj_encoder.h
+ /usr/local/include/draco/mesh/corner_table.h
+ /usr/local/include/draco/mesh/valence_cache.h
  /home/sc/draco/src/draco/io/point_cloud_io.h
  /home/sc/draco/src/draco/mesh/mesh.h
  /home/sc/open3d_install_0.16.0/include/open3d/Open3D.h

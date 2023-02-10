@@ -7,6 +7,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <netdb.h>
 
 #include "../draco/src/draco/compression/encode.h"
 #include "../draco/src/draco/core/cycle_timer.h"
@@ -73,8 +74,22 @@ static void *transfer(void *data)
 		perror("setsockopt");
 		exit(EXIT_FAILURE);
 	}
-	address.sin_family = AF_INET;
-	address.sin_addr.s_addr = INADDR_ANY;
+
+	// IN:  The char array 'localhostname' 
+	// OUT: The hostent struct hp  
+	// OUT: A partially filled in sockadd_in struct sa 
+	// struct sockadd_in sa; 
+	// struct hostent *hp;
+	// hp = gethostbyname(localhostname);
+	// sa.sin_family = hp->h_addrtype;
+	// bcopy((char *)hp->h_addr, (char *)&sa.sin_addr, hp->h_length);
+
+	// address.sin_family = AF_INET;
+	struct hostent *hp;
+	hp = gethostbyname("192.168.1.79");
+	address.sin_family = hp->h_addrtype;
+	bcopy((char *)hp->h_addr, (char *)&address.sin_addr, hp->h_length);
+	// address.sin_addr.s_addr = INADDR_ANY;
 	address.sin_port = htons(args->port);
 
 	// Forcefully attaching socket to the port 8080

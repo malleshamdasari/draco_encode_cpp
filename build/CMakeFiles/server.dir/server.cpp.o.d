@@ -102,6 +102,10 @@ CMakeFiles/server.dir/server.cpp.o: /home/sc/draco_encode_cpp/server.cpp \
  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
+ /usr/include/netdb.h /usr/include/rpc/netdb.h \
+ /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h \
+ /usr/include/x86_64-linux-gnu/bits/netdb.h \
  /home/sc/draco_encode_cpp/../draco/src/draco/compression/encode.h \
  /usr/local/include/draco/compression/config/compression_shared.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \
