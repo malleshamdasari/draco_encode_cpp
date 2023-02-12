@@ -45,6 +45,7 @@ const char *get_error_text()
 #define PORT 8080
 #define NUM_THREADS 1
 bool enableDebugging = 0;
+char ipAddress[255] = "192.168.1.23";
 
 typedef struct
 {
@@ -53,7 +54,7 @@ typedef struct
 } args_t;
 
 
-int open3d_to_draco(open3d::geometry::TriangleMesh *inOpen3d, draco::EncoderBuffer *meshBuffer){
+int open3d_to_draco(open3d::geometry::TriangleMesh *inOpen3d, draco::EncoderBuffer *outDracoBuffer){
 
     draco::Mesh *open3dToDracoMesh = new draco::Mesh();
     open3dToDracoMesh->set_num_points((uint32_t)inOpen3d->vertices_.size());
@@ -116,7 +117,7 @@ int open3d_to_draco(open3d::geometry::TriangleMesh *inOpen3d, draco::EncoderBuff
 
     // draco::EncoderBuffer meshBuffer;
     // draco::Mesh *meshToSave = nullptr;
-    draco::Mesh *mesh = nullptr;
+    // draco::Mesh *mesh = nullptr;
 
     // draco::StatusOr<std::unique_ptr<draco::Mesh>> maybe_mesh = draco::ReadMeshFromFile("/home/allan/draco_encode_cpp/custom0.obj", false);
     // if (!maybe_mesh.ok())
@@ -126,7 +127,7 @@ int open3d_to_draco(open3d::geometry::TriangleMesh *inOpen3d, draco::EncoderBuff
     // }
 
     // mesh = maybe_mesh.value().get();
-    mesh = open3dToDracoMesh;
+    // mesh = open3dToDracoMesh;
     // pc = std::move(maybe_mesh).value();
     // pc = maybe_mesh.value().get();
 
@@ -146,7 +147,7 @@ int open3d_to_draco(open3d::geometry::TriangleMesh *inOpen3d, draco::EncoderBuff
     std::unique_ptr<draco::ExpertEncoder> expert_encoder;
     // if (input_is_mesh)
     // {
-    expert_encoder.reset(new draco::ExpertEncoder(*mesh));
+    expert_encoder.reset(new draco::ExpertEncoder(*open3dToDracoMesh));
     // }
     // else
     // {
@@ -158,21 +159,7 @@ int open3d_to_draco(open3d::geometry::TriangleMesh *inOpen3d, draco::EncoderBuff
     // {
     // std::cout << "about to encode" << std::endl;
     
-    
-    // encoder.EncodeMeshToBuffer(*mesh, &meshBuffer);
-    encoder.EncodeMeshToBuffer(*mesh, meshBuffer);
-
-
-    // }
-    // else
-    // {
-    //     encoder.EncodePointCloudToBuffer(*pc, &meshBuffer);
-    // }
-    // std::cout << "finished encoding " << std::endl;
-    // draco::DecoderBuffer decoderBuffer;
-    // decoderBuffer.Init(meshBuffer.data(), meshBuffer.size());
-
-    // draco::Decoder decoder;
+    encoder.EncodeMeshToBuffer(*open3dToDracoMesh, outDracoBuffer);
 
     return 0;
 }
@@ -215,7 +202,7 @@ static void *transfer(void *data)
 
 	// address.sin_family = AF_INET;
 	struct hostent *hp;
-	hp = gethostbyname("192.168.1.23");
+	hp = gethostbyname(ipAddress);
 	address.sin_family = hp->h_addrtype;
 	bcopy((char *)hp->h_addr, (char *)&address.sin_addr, hp->h_length);
 	// address.sin_addr.s_addr = INADDR_ANY;
