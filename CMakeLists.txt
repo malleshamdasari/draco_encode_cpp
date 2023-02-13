@@ -28,19 +28,19 @@ target_link_libraries(test -Wl,--whole-archive draco -Wl,--no-whole-archive Open
 target_link_libraries(server -Wl,--whole-archive draco -Wl,--no-whole-archive Open3D::Open3D)
 target_link_libraries(client -Wl,--whole-archive draco -Wl,--no-whole-archive Open3D::Open3D)
 
-add_definitions(-O3)
+#add_definitions(-O3)
 
-#target_compile_options(test PUBLIC
+target_compile_options(test PUBLIC
   #"-Werror" # Do not comment this out after Project 8!
-  #"-ggdb"
-  #"-O0"
-  #"-Wunreachable-code"
-  #"-g"
-  #"-Wextra"
-  #"-Wall"
-  #"-Wfloat-equal"
-  #"-Wconversion"
-  #"-Wparentheses"
+  "-ggdb"
+  "-O3"
+  "-Wunreachable-code"
+  "-g"
+  "-Wextra"
+  "-Wall"
+  "-Wfloat-equal"
+  "-Wconversion"
+  "-Wparentheses"
   #"-pedantic"
   #"-Wunused-parameter"
   #"-Wunused-variable"
@@ -52,4 +52,4 @@ add_definitions(-O3)
   #"-Wunused-value"
   #"-Wswitch-default"
   #"-Wuninitialized" "-Winit-self"
-  #)
+  )

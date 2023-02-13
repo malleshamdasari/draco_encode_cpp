@@ -6,5 +6,5 @@ CXX_DEFINES = -DFMT_HEADER_ONLY=0 -DFMT_STRING_ALIAS=1 -DFMT_USE_WINDOWS_H=0 -D_
 
 CXX_INCLUDES = -I/home/sc/draco_encode_cpp/../draco_encode_cpp -isystem /home/sc/open3d_install_0.16.0/include -isystem /home/sc/open3d_install_0.16.0/include/open3d/3rdparty
 
-CXX_FLAGS =   -O3
+CXX_FLAGS = -ggdb -O3 -Wunreachable-code -g -Wextra -Wall -Wfloat-equal -Wconversion -Wparentheses
 

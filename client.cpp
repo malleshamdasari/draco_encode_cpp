@@ -25,18 +25,18 @@ const char *get_error_text()
 
 #if defined(_WIN32)
 
-	static char message[256] = {0};
-	FormatMessage(
-		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-		0, WSAGetLastError(), 0, message, 256, 0);
-	char *nl = strrchr(message, '\n');
-	if (nl)
-		*nl = 0;
-	return message;
+    static char message[256] = {0};
+    FormatMessage(
+        FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+        0, WSAGetLastError(), 0, message, 256, 0);
+    char *nl = strrchr(message, '\n');
+    if (nl)
+        *nl = 0;
+    return message;
 
 #else
 
-	return strerror(errno);
+    return strerror(errno);
 
 #endif
 }
@@ -50,22 +50,26 @@ int sock = 0;
 int valread = 0;
 int client_fd = 0;
 int enableDebugging = 0;
-char ipAddress[255] = "192.168.1.23";
+char ipAddress[255] = "sc-4.arena.andrew.cmu.edu";
 
 typedef struct
 {
-	int port;
-	int id;
+    int port;
+    int id;
 } args_t;
 
-
-int draco_to_open3d(open3d::geometry::TriangleMesh *outOpen3d, draco::EncoderBuffer *inDracoBuffer){
+int draco_to_open3d(open3d::geometry::TriangleMesh *outOpen3d, draco::EncoderBuffer *inDracoBuffer)
+{
     draco::DecoderBuffer decoderBuffer;
+    if (inDracoBuffer->size() <= 0)
+    {
+        return -1;
+    }
     decoderBuffer.Init(inDracoBuffer->data(), inDracoBuffer->size());
 
     draco::Decoder decoder;
     std::shared_ptr<draco::Mesh> meshToSave = decoder.DecodeMeshFromBuffer(&decoderBuffer).value();
-    
+
     if (enableDebugging)
     {
         printf("mesh num attributes: %d\n", meshToSave->num_attributes());
@@ -80,6 +84,13 @@ int draco_to_open3d(open3d::geometry::TriangleMesh *outOpen3d, draco::EncoderBuf
         // vector to hold all vertices info
         std::cout << "draco format: " << std::endl;
     }
+
+    // needs at least two attributes: vertices and normals
+    if (meshToSave->num_attributes() <= 1)
+    {
+        return -1;
+    }
+
     std::vector<Eigen::Vector3d> allVerticesP;
     std::vector<Eigen::Vector3d> allVerticesN;
     const draco::PointAttribute *attr;
@@ -310,7 +321,7 @@ int draco_to_open3d(open3d::geometry::TriangleMesh *outOpen3d, draco::EncoderBuf
         // outOpen3d->RemoveDuplicatedVertices();
         // outOpen3d2->RemoveDuplicatedVertices();
     }
-    
+
     outOpen3d->ComputeVertexNormals(false);
     // outOpen3d->RemoveDuplicatedVertices();
     // outOpen3d->RemoveDuplicatedTriangles();
@@ -408,127 +419,108 @@ int draco_to_open3d(open3d::geometry::TriangleMesh *outOpen3d, draco::EncoderBuf
 
 static void *recieve(void *data)
 {
-	args_t *args = (args_t *)data;
+    args_t *args = (args_t *)data;
 
-	int sock = 0;
-	int valread = 0;
-	int client_fd = 0;
-	struct sockaddr_in address;
+    int sock = 0;
+    int valread = 0;
+    int client_fd = 0;
+    struct sockaddr_in address;
+    char buffer[1024] = {0};
 
-	char buffer[1024] = {0};
+    // convert hostname to ip address
+    struct hostent *hp;
+    hp = gethostbyname(ipAddress);
+    std::cout << hp->h_addr << std::endl;
+    address.sin_family = hp->h_addrtype;
+    bcopy((char *)hp->h_addr, (char *)&address.sin_addr, hp->h_length);
+    address.sin_port = htons(args->port);
 
-	
-	struct hostent *hp;
-	hp = gethostbyname(ipAddress);
-	std::cout << hp->h_addr << std::endl;
-	address.sin_family = hp->h_addrtype;
-	bcopy((char *)hp->h_addr, (char *)&address.sin_addr, hp->h_length);
-	address.sin_port = htons(args->port);
+    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    {
+        printf("\n Socket creation error \n");
+        // return -1;
+    }
 
-	if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
-	{
-		printf("\n Socket creation error \n");
-		// return -1;
-	}
+    if ((client_fd = connect(sock, (struct sockaddr *)&address, sizeof(address))) < 0)
+    {
+        printf("\nConnection Failed in thread: %d\n", args->id);
+        return NULL;
+    }
 
-	// address.sin_family = AF_INET;
-	
+    // will probably break when the file is too small...
+    int counter = 0;
+    while (1)
+    {
+        pthread_mutex_lock(&fileMutex);
+        valread = read(sock, buffer, 1024);
+        int toRead = atoi(buffer);
+        printf("(%d) client toRead: %d\n", counter, toRead);
+        // printf("(%d) read: %d\n", counter, valread);
 
+        char inBuffer[toRead] = {0};
+        int totalRead = 0;
+        while (toRead >= MAX)
+        {
+            valread = read(sock, (inBuffer + totalRead), MAX);
+            totalRead += valread;
+            toRead -= valread;
+            // printf("(%d) read: %d toRead: %d\n", counter, valread, toRead);
+        }
 
-	// Convert IPv4 and IPv6 addresses from text to binary
-	// form
-	if (inet_pton(AF_INET, ipAddress, &address.sin_addr) <= 0)
-	{
-		printf("\nInvalid address/ Address not supported \n");
-		return NULL;
-	}
+        valread = read(sock, (inBuffer + totalRead), toRead);
+        totalRead += valread;
+        toRead -= valread;
+        // printf("(%d) read: %d toRead: %d\n", counter, valread, toRead);
+        if (counter > 1)
+        {
+            draco::EncoderBuffer inDracoBuffer;
+            inDracoBuffer.buffer()->insert(inDracoBuffer.buffer()->end(), &inBuffer[0], &inBuffer[totalRead]);
 
-	if ((client_fd = connect(sock, (struct sockaddr *)&address, sizeof(address))) < 0)
-	{
-		printf("\nConnection Failed in thread: %d\n", args->id);
-		return NULL;
-	}
+            // convert draco to open3d
+            auto outOpen3d = std::make_shared<open3d::geometry::TriangleMesh>();
 
-	// will probably break when the file is too small...
-	valread = read(sock, buffer, 1024);
-	int toRead = atoi(buffer);
-	printf("(%d) client toRead: %d\n", args->id, toRead);
-	printf("(%d) read: %d\n", args->id, valread);
+            char outPath[1024] = {0};
+            // sprintf(outPath, "/home/allan/draco_encode_cpp/client/test_thread%d.ply", counter);
+            sprintf(outPath, "/home/sc/draco_encode_cpp/meshes/frame_%d.obj", counter);
 
-	char inBuffer[toRead] = {0};
+            // bool success = objEncoder.EncodeToFile(*(meshToSave.get()), outPath);
+            bool success = draco_to_open3d(outOpen3d.get(), &inDracoBuffer);
+            if (counter < 5)
+            {
+                open3d::io::WriteTriangleMeshToOBJ(outPath, *outOpen3d, false, false, true, false, false, false);
+            }
+            printf("buffer save success: %d\n", !success);
+        }
 
-	int totalRead = 0;
-	while (toRead >= MAX)
-	{
-		valread = read(sock, (inBuffer + totalRead), MAX);
-		totalRead += valread;
-		toRead -= valread;
-		printf("(%d) read: %d toRead: %d\n", args->id, valread, toRead);
-	}
+        counter++;
+        pthread_mutex_unlock(&fileMutex);
+        // Without lock: Bad file descriptor (corrupts the .ply file)
+    }
 
-	valread = read(sock, (inBuffer + totalRead), toRead);
-	totalRead += valread;
-	toRead -= valread;
-	printf("(%d) read: %d toRead: %d\n", args->id, valread, toRead);
-
-	// doing this is futile -> just need encoder buffer to send to ply encoder
-	draco::EncoderBuffer encoderBuffer;
-	encoderBuffer.buffer()->insert(encoderBuffer.buffer()->end(), &inBuffer[0], &inBuffer[totalRead]);
-	
-	draco::DecoderBuffer decoderBuffer;
-	decoderBuffer.Init(encoderBuffer.data(), encoderBuffer.size());
-
-	draco::Decoder decoder;
-	std::unique_ptr<draco::Mesh> meshToSave = decoder.DecodeMeshFromBuffer(&decoderBuffer).value();
-	
-	draco::ObjEncoder objEncoder;
-	char outPath[1024] = {0};
-	// sprintf(outPath, "/home/allan/draco_encode_cpp/client/test_thread%d.ply", args->id);
-	sprintf(outPath, "/home/sc/draco_encode_cpp/example2_SUCCESSFUL_TRANSFER.obj");
-	bool success = objEncoder.EncodeToFile(*(meshToSave.get()), outPath);
-	// Without lock: Bad file descriptor (corrupts the .ply file)
-	
-	// pthread_mutex_lock(&fileMutex);
-	
-	// pthread_mutex_unlock(&fileMutex);
-	printf("buffer save success: %d\n", success);
-
-	// now use open3d to read this virtual file (in the form of a file pointer stream)
-
-	// display the photo
-	
-	
-	// pthread_mutex_lock(&fileMutex);
-	// plyEncoder.EncodeToFile(*(meshToSave.get()), outPath);
-	// pthread_mutex_unlock(&fileMutex);
-	// printf("(%d) saved to file: %s\n", args->id, outPath);
-
-	// open3d::utility::LogInfo("vertices: {}\n",inBuffer[0]);
-
-	// closing the connected socket
-	printf("Last error was: %s\n", get_error_text());
-	close(client_fd);
-	return NULL;
-	// printf("Last error was: %s\n", get_error_text());
+    // closing the connected socket
+    printf("Last error was: %s\n", get_error_text());
+    close(client_fd);
+    return NULL;
+    // printf("Last error was: %s\n", get_error_text());
 }
 
 int main(int argc, char const *argv[])
 {
 
-	pthread_t threads[NUM_THREADS];
-	args_t args[NUM_THREADS];
+    pthread_t threads[NUM_THREADS];
+    args_t args[NUM_THREADS];
 
-	for (int i = 0; i < NUM_THREADS; i++)
-	{
-		args[i].port = PORT + i;
-		args[i].id = i;
-		pthread_create(&threads[i], NULL, recieve, &args[i]);
-	}
+    for (int i = 0; i < NUM_THREADS; i++)
+    {
+        args[i].port = PORT + i;
+        args[i].id = i;
+        pthread_create(&threads[i], NULL, recieve, &args[i]);
+    }
 
-	for (unsigned i = 0; i < NUM_THREADS; i++)
-	{
-		pthread_join(threads[i], NULL);
-	}
+    for (unsigned i = 0; i < NUM_THREADS; i++)
+    {
+        pthread_join(threads[i], NULL);
+    }
 
-	return 0;
+    return 0;
 }

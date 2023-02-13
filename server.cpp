@@ -45,7 +45,7 @@ const char *get_error_text()
 #define PORT 8080
 #define NUM_THREADS 1
 bool enableDebugging = 0;
-char ipAddress[255] = "192.168.1.23";
+char ipAddress[255] = "sc-4.arena.andrew.cmu.edu";
 
 typedef struct
 {
