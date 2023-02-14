@@ -41,8 +41,8 @@ const char *get_error_text()
 #endif
 }
 
-#define MAX 4096
-#define PORT 8080
+#define MAXTRANSMIT 4096
+#define PORT 8090
 #define NUM_THREADS 1
 
 pthread_mutex_t fileMutex;
@@ -425,7 +425,7 @@ static void *recieve(void *data)
     int valread = 0;
     int client_fd = 0;
     struct sockaddr_in address;
-    char buffer[1024] = {0};
+    char buffer[MAXTRANSMIT] = {0};
 
     // convert hostname to ip address
     struct hostent *hp;
@@ -447,21 +447,36 @@ static void *recieve(void *data)
         return NULL;
     }
 
+    open3d::visualization::Visualizer visualizer;
+    if (!visualizer.CreateVisualizerWindow("Mesh", 1600, 900, 50, 50))
+    {
+        open3d::utility::LogWarning(
+            "[DrawGeometries] Failed creating OpenGL "
+            "window.");
+        return NULL;
+    }
+    visualizer.GetRenderOption().point_show_normal_ = true;
+    visualizer.GetRenderOption().mesh_show_wireframe_ = false;
+    visualizer.GetRenderOption().mesh_show_back_face_ = false;
+    visualizer.BuildUtilities();
+    visualizer.UpdateWindowTitle();
+    open3d::visualization::ViewControl &view_control = visualizer.GetViewControl();
+
     // will probably break when the file is too small...
     int counter = 0;
     while (1)
     {
-        pthread_mutex_lock(&fileMutex);
-        valread = read(sock, buffer, 1024);
+        // pthread_mutex_lock(&fileMutex);
+        valread = read(sock, buffer, MAXTRANSMIT);
         int toRead = atoi(buffer);
         printf("(%d) client toRead: %d\n", counter, toRead);
         // printf("(%d) read: %d\n", counter, valread);
 
         char inBuffer[toRead] = {0};
         int totalRead = 0;
-        while (toRead >= MAX)
+        while (toRead >= MAXTRANSMIT)
         {
-            valread = read(sock, (inBuffer + totalRead), MAX);
+            valread = read(sock, (inBuffer + totalRead), MAXTRANSMIT);
             totalRead += valread;
             toRead -= valread;
             // printf("(%d) read: %d toRead: %d\n", counter, valread, toRead);
@@ -485,18 +500,32 @@ static void *recieve(void *data)
 
             // bool success = objEncoder.EncodeToFile(*(meshToSave.get()), outPath);
             bool success = draco_to_open3d(outOpen3d.get(), &inDracoBuffer);
-            if (counter < 5)
-            {
-                open3d::io::WriteTriangleMeshToOBJ(outPath, *outOpen3d, false, false, true, false, false, false);
+            // if (counter < 5)
+            // {
+            //     open3d::io::WriteTriangleMeshToOBJ(outPath, *outOpen3d, false, false, true, false, false, false);
+            //     printf("(%d) buffer save success: %d\n", counter, !success);
+            // }
+
+            // draw geometry (non-blocking) made from oped3d::visualization::DrawGeometries
+            if(counter % 10 == 0){
+                // pthread_mutex_lock(&fileMutex);
+                visualizer.ClearGeometries();
+                visualizer.AddGeometry({outOpen3d});
+                
+                // std::thread t(&open3d::visualization::Visualizer::WaitEvents, &visualizer);
+                // t.join();
+                visualizer.WaitEvents()
+                // pthread_mutex_unlock(&fileMutex);
             }
-            printf("buffer save success: %d\n", !success);
+
         }
 
         counter++;
-        pthread_mutex_unlock(&fileMutex);
-        // Without lock: Bad file descriptor (corrupts the .ply file)
+        // pthread_mutex_unlock(&fileMutex);
     }
 
+    // closing visualization window
+    visualizer.DestroyVisualizerWindow();
     // closing the connected socket
     printf("Last error was: %s\n", get_error_text());
     close(client_fd);
